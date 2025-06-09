@@ -1,24 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowRight, TrendingUp, BarChart3, Globe, Zap } from "lucide-react";
+import AppearingChart from "./PredictionPage/AppearingChart";
 
-const InputPage = () => {
+interface InputPageProps {
+  onSubmit: (inputValue: string) => void;
+}
+
+const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     if (inputValue.trim()) {
       setIsLoading(true);
-      // Simulate API call - in real app this would connect to your backend
+      // After 5 seconds, navigate to forecast page
       setTimeout(() => {
-        // This is where you'd navigate to the next step
-        console.log("Processing shock event:", inputValue);
-      }, 3000);
+        onSubmit(inputValue);
+      }, 5000);
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
+  // Handle keyboard press during loading to skip to forecast
+  useEffect(() => {
+    const handleKeyPress = () => {
+      if (isLoading && inputValue.trim()) {
+        onSubmit(inputValue);
+      }
+    };
+
+    if (isLoading) {
+      window.addEventListener("keydown", handleKeyPress);
+      return () => window.removeEventListener("keydown", handleKeyPress);
+    }
+  }, [isLoading, inputValue, onSubmit]);
+
   const LoadingAnimation = () => (
     <div className="flex flex-col items-center justify-center min-h-[500px] space-y-12 w-full max-w-4xl mx-auto pt-16">
+      {/* Add instruction text */}
+      {/* <div className="text-center mb-4">
+        <p className="text-gray-600">
+          Press any key to continue or wait 5 seconds...
+        </p>
+      </div> */}
+
       {/* Animated pulse circles */}
       <div className="relative">
         <div className="w-20 h-20 rounded-full border-4 border-blue-200 animate-pulse"></div>
@@ -58,7 +88,7 @@ const InputPage = () => {
       </div>
 
       {/* Progress indicators */}
-      <div className="w-96 space-y-6">
+      {/* <div className="w-96 space-y-6">
         <div className="flex justify-between items-center">
           <span className="text-base text-gray-600">Processing event</span>
           <span className="text-base font-medium text-blue-600">100%</span>
@@ -91,7 +121,7 @@ const InputPage = () => {
             style={{ width: "45%" }}
           ></div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 
@@ -120,7 +150,7 @@ const InputPage = () => {
                       type="text"
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
+                      onKeyDown={handleKeyDown}
                       placeholder="e.g., Trump slaps a 100% tariff on China"
                       className="w-full px-6 py-4 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-200"
                     />
@@ -197,6 +227,7 @@ const InputPage = () => {
             <LoadingAnimation />
           )}
         </div>
+        <AppearingChart />
       </main>
     </div>
   );

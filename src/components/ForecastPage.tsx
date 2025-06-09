@@ -8,8 +8,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ArrowRight, TrendingUp, TrendingDown } from "lucide-react";
+import PredictionChart from "./PredictionPage/PredictionChart";
 
-const ForecastPage = () => {
+const ForecastPage = ({ shockEvent, onBack }) => {
   // Real data from CSV showing actual shock event impacts
   const spData = [
     { date: "2025-06-10", price: 5930.36 },
@@ -282,11 +283,20 @@ const ForecastPage = () => {
       <div className="max-w-7xl mx-auto p-8">
         {/* Header */}
         <div className="mb-8">
+          <div className="flex items-center mb-4">
+            <button
+              onClick={onBack}
+              className="text-blue-600 hover:text-blue-800 mr-4 flex items-center"
+            >
+              ← Back to Input
+            </button>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Impact Analysis: Nuclear Escalation Scenario
           </h1>
           <p className="text-lg text-gray-600">
-            Russia-Ukraine conflict escalating to nuclear confrontation
+            {shockEvent ||
+              "Russia-Ukraine conflict escalating to nuclear confrontation"}
           </p>
         </div>
 
@@ -367,6 +377,10 @@ const ForecastPage = () => {
             <span>Send to 4-xtra Engine</span>
             <ArrowRight className="w-5 h-5" />
           </button>
+        </div>
+        <div className="flex gap-1">
+          <PredictionChart />
+          <PredictionChart />
         </div>
       </div>
     </div>
