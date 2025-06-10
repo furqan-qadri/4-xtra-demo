@@ -84,16 +84,17 @@ const InputPage: React.FC = () => {
   );
 
   return (
-    <div className="w-full h-full bg-white pt-12">
+    <div className="w-full h-full bg-none pt-12">
       <main className="w-full h-full p-0 m-0">
         <div className="w-full h-full flex items-center justify-center">
           {!isLoading ? (
             <div className="text-center space-y-8 w-full max-w-6xl px-8">
               {/* Hero Section */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <h2 className="text-4xl font-bold text-gray-900">
-                  Forecast Economic Impact
+                  Forecast Economic Impact - WHAT IF ...
                 </h2>
+                {/* <div className="text-4xl font-bold">WHAT IF...</div> */}
                 <p className="text-xl text-gray-600 mx-auto">
                   Enter a shock event scenario to predict its impact on global
                   macroeconomic sectors

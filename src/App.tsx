@@ -55,8 +55,20 @@ const AppContent: React.FC = () => {
 
         <div className="flex pt-16">
           <main className="flex-1 lg:ml-0">
-            <div className="min-h-screen bg-white">
-              <div className="max-w-full mx-auto">
+            <div className="min-h-screen bg-white relative">
+              {/* Background with opacity */}
+              <div
+                className="absolute inset-0 opacity-20"
+                style={{
+                  backgroundImage: 'url("/assets/input_background.png")',
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+
+              {/* Your content with relative positioning */}
+              <div className="max-w-full mx-auto relative z-10">
                 <Routes>
                   <Route path="/" element={<InputPage />} />
                   <Route path="/forecast" element={<ForecastPage />} />
