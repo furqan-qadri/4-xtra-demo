@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 
-interface ProgressiveGraphRevealProps {
+interface AppearingChartProps {
   imageUrl: string;
+  title: string;
+  subheading: string;
   duration?: number; // Duration in milliseconds
   autoStart?: boolean;
+  altText?: string; // Optional alt text for accessibility
 }
 
-const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
+const AppearingChart: React.FC<AppearingChartProps> = ({
   imageUrl,
-  duration = 5000,
+  title,
+  subheading,
+  duration = 33000,
   autoStart = true,
+  altText,
 }) => {
   const [revealPercentage, setRevealPercentage] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -61,12 +67,8 @@ const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Crude Oil Price Analysis
-        </h2>
-        <p className="text-gray-600">
-          Graph reveals the possible impact of trade policies on oil prices
-        </p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{title}</h2>
+        <p className="text-gray-600">{subheading}</p>
       </div>
 
       <div className="relative bg-gray-50 rounded-lg overflow-hidden border-2 border-gray-200">
@@ -77,7 +79,7 @@ const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
         >
           <img
             src={imageUrl}
-            alt="Crude Oil Price Graph"
+            alt={altText || title}
             className="absolute inset-0 w-full h-full object-contain"
             style={{
               clipPath: `inset(0 ${100 - revealPercentage}% 0 0)`,
@@ -104,23 +106,6 @@ const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
           </div> */}
         </div>
       </div>
-    </div>
-  );
-};
-
-// Example usage component
-const AppearingChart: React.FC = () => {
-  // You'll need to upload your image and use its URL here
-  const imageUrl =
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Black_cherry_tree_histogram.svg/1200px-Black_cherry_tree_histogram.svg.png";
-
-  return (
-    <div className="bg-gray-100">
-      <ProgressiveGraphReveal
-        imageUrl={imageUrl}
-        duration={23000}
-        autoStart={true}
-      />
     </div>
   );
 };
