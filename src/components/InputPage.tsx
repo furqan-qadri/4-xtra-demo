@@ -126,7 +126,7 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
   );
 
   return (
-    <div className="w-full h-full bg-white">
+    <div className="w-full h-full bg-white pt-12">
       <main className="w-full h-full p-0 m-0">
         <div className="w-full h-full flex items-center justify-center">
           {!isLoading ? (
@@ -136,7 +136,7 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
                 <h2 className="text-4xl font-bold text-gray-900">
                   Forecast Economic Impact
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="text-xl text-gray-600 mx-auto">
                   Enter a shock event scenario to predict its impact on global
                   macroeconomic sectors
                 </p>
@@ -227,7 +227,6 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
             <LoadingAnimation />
           )}
         </div>
-        <AppearingChart />
       </main>
     </div>
   );

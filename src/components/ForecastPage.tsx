@@ -9,8 +9,15 @@ import {
 } from "recharts";
 import { ArrowRight, TrendingUp, TrendingDown } from "lucide-react";
 import PredictionChart from "./PredictionPage/PredictionChart";
-
-const ForecastPage = ({ shockEvent, onBack }) => {
+const ForecastPage = ({
+  shockEvent,
+  onBack,
+  onNavigateToPrediction,
+}: {
+  shockEvent: string;
+  onBack: () => void;
+  onNavigateToPrediction: () => void;
+}) => {
   // Real data from CSV showing actual shock event impacts
   const spData = [
     { date: "2025-06-10", price: 5930.36 },
@@ -186,14 +193,26 @@ const ForecastPage = ({ shockEvent, onBack }) => {
     },
   ];
 
-  const formatDate = (dateStr) => {
+  const formatDate = (dateStr: string | number | Date) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
     });
   };
 
-  const MainChart = ({ title, data, color, change, unit = "$" }) => (
+  const MainChart = ({
+    title,
+    data,
+    color,
+    change,
+    unit = "$",
+  }: {
+    title: string;
+    data: Array<{ date: string; price: number }>;
+    color: string;
+    change: string;
+    unit?: string;
+  }) => (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <div className="flex justify-between items-start mb-4">
         <div>
@@ -250,7 +269,17 @@ const ForecastPage = ({ shockEvent, onBack }) => {
     </div>
   );
 
-  const SmallChart = ({ name, data, color, change }) => (
+  const SmallChart = ({
+    name,
+    data,
+    color,
+    change,
+  }: {
+    name: string;
+    data: Array<{ date: string; price: number }>;
+    color: string;
+    change: string;
+  }) => (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <div className="flex justify-between items-start mb-3">
         <h4 className="text-sm font-semibold text-gray-900">{name}</h4>
@@ -373,7 +402,10 @@ const ForecastPage = ({ shockEvent, onBack }) => {
 
         {/* Action Button */}
         <div className="flex justify-center">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center space-x-3 transition-colors duration-200 shadow-lg">
+          <button
+            onClick={onNavigateToPrediction}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center space-x-3 transition-colors duration-200 shadow-lg"
+          >
             <span>Send to 4-xtra Engine</span>
             <ArrowRight className="w-5 h-5" />
           </button>
