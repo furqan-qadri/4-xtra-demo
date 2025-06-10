@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, TrendingUp, BarChart3, Globe, Zap } from "lucide-react";
+import { ShockEventContext } from "../App";
 
-interface InputPageProps {
-  onSubmit: (inputValue: string) => void;
-}
-
-const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
+const InputPage: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { setShockEvent } = useContext(ShockEventContext);
 
   const handleSubmit = () => {
     if (inputValue.trim()) {
       setIsLoading(true);
+      setShockEvent(inputValue);
       // After 5 seconds, navigate to forecast page
       setTimeout(() => {
-        onSubmit(inputValue);
+        navigate("/forecast");
       }, 5000);
     }
   };
@@ -29,7 +30,8 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
   useEffect(() => {
     const handleKeyPress = () => {
       if (isLoading && inputValue.trim()) {
-        onSubmit(inputValue);
+        setShockEvent(inputValue);
+        navigate("/forecast");
       }
     };
 
@@ -37,17 +39,10 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
       window.addEventListener("keydown", handleKeyPress);
       return () => window.removeEventListener("keydown", handleKeyPress);
     }
-  }, [isLoading, inputValue, onSubmit]);
+  }, [isLoading, inputValue, navigate, setShockEvent]);
 
   const LoadingAnimation = () => (
     <div className="flex flex-col items-center justify-center min-h-[500px] space-y-12 w-full max-w-4xl mx-auto pt-16">
-      {/* Add instruction text */}
-      {/* <div className="text-center mb-4">
-        <p className="text-gray-600">
-          Press any key to continue or wait 5 seconds...
-        </p>
-      </div> */}
-
       {/* Animated pulse circles */}
       <div className="relative">
         <div className="w-20 h-20 rounded-full border-4 border-blue-200 animate-pulse"></div>
@@ -85,42 +80,6 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
           </div>
         </div>
       </div>
-
-      {/* Progress indicators */}
-      {/* <div className="w-96 space-y-6">
-        <div className="flex justify-between items-center">
-          <span className="text-base text-gray-600">Processing event</span>
-          <span className="text-base font-medium text-blue-600">100%</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div
-            className="bg-blue-600 h-3 rounded-full animate-pulse"
-            style={{ width: "100%" }}
-          ></div>
-        </div>
-
-        <div className="flex justify-between items-center">
-          <span className="text-base text-gray-600">Mapping sectors</span>
-          <span className="text-base font-medium text-green-600">75%</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div
-            className="bg-green-600 h-3 rounded-full animate-pulse"
-            style={{ width: "75%" }}
-          ></div>
-        </div>
-
-        <div className="flex justify-between items-center">
-          <span className="text-base text-gray-600">Generating forecasts</span>
-          <span className="text-base font-medium text-orange-600">45%</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div
-            className="bg-orange-600 h-3 rounded-full animate-pulse"
-            style={{ width: "45%" }}
-          ></div>
-        </div>
-      </div> */}
     </div>
   );
 

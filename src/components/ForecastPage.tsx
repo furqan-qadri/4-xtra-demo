@@ -7,15 +7,22 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ArrowRight, TrendingUp, TrendingDown } from "lucide-react";
-const ForecastPage = ({
-  // shockEvent,
-  onBack,
-  onNavigateToPrediction,
-}: {
-  shockEvent: string;
-  onBack: () => void;
-  onNavigateToPrediction: () => void;
-}) => {
+// import React, { useContext } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+// import { ShockEventContext } from "../App";
+
+const ForecastPage: React.FC = () => {
+  const navigate = useNavigate();
+  // const { shockEvent } = useContext(ShockEventContext);
+
+  const handleBack = () => {
+    navigate("/");
+  };
+
+  const handleNavigateToPrediction = () => {
+    navigate("/prediction");
+  };
   // Real data from CSV showing actual shock event impacts
   const spData = [
     { date: "2025-06-10", price: 5930.36 },
@@ -314,7 +321,7 @@ const ForecastPage = ({
         <div className="mb-8">
           <div className="flex items-center mb-4">
             <button
-              onClick={onBack}
+              onClick={handleBack}
               className="text-blue-600 hover:text-blue-800 mr-4 flex items-center"
             >
               ← Back to Input
@@ -402,7 +409,7 @@ const ForecastPage = ({
         {/* Action Button */}
         <div className="flex justify-center">
           <button
-            onClick={onNavigateToPrediction}
+            onClick={handleNavigateToPrediction}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center space-x-3 transition-colors duration-200 shadow-lg"
           >
             <span>Send to 4-xtra Engine</span>

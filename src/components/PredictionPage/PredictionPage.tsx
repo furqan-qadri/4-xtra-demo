@@ -1,15 +1,28 @@
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import AppearingChart from "./AppearingChart";
+import { ShockEventContext } from "../../App";
 
-interface PredictionPageProps {
-  shockEvent: string;
-  onBack: () => void;
-}
+const PredictionPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { shockEvent } = useContext(ShockEventContext);
 
-function PredictionPage({ shockEvent }: PredictionPageProps) {
+  const handleBack = () => {
+    navigate("/forecast");
+  };
+
   return (
     <div className="p-8">
       {/* Header Section */}
       <div className="mb-8">
+        <div className="flex items-center mb-4">
+          <button
+            onClick={handleBack}
+            className="text-blue-600 hover:text-blue-800 mr-4 flex items-center"
+          >
+            ← Back to Forecast
+          </button>
+        </div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Extreme Scenarios
         </h1>
@@ -55,7 +68,6 @@ function PredictionPage({ shockEvent }: PredictionPageProps) {
           subheading="Variation of Russel 2000"
           imageUrl="/assets/russel2000.jpg"
         />
-
         <AppearingChart
           title="S&P 500 Index"
           subheading="Variation of S&P 500"
@@ -64,6 +76,6 @@ function PredictionPage({ shockEvent }: PredictionPageProps) {
       </div>
     </div>
   );
-}
+};
 
 export default PredictionPage;
