@@ -1,4 +1,3 @@
-import React from "react";
 import {
   LineChart,
   Line,
@@ -6,15 +5,42 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
 
-const PredictionChart = () => {
+interface RealDataPoint {
+  date: string;
+  real: number;
+  shockEvent: number | null;
+}
+
+interface SyntheticDataPoint {
+  date: string;
+  scenario: number;
+  price: number;
+}
+
+interface ChartDataPoint {
+  date: string;
+  real?: number;
+  shockEvent?: number | null;
+  [key: string]: any; // For synthetic_${number} properties
+}
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    dataKey: string;
+    value: number;
+  }>;
+  label?: string;
+}
+
+const PredictionChart: React.FC = () => {
   // Generate realistic Bitcoin price data before shock event
-  const generateRealData = () => {
-    const data = [];
+  const generateRealData = (): RealDataPoint[] => {
+    const data: RealDataPoint[] = [];
     let price = 98000;
 
     for (let i = 0; i < 50; i++) {
@@ -37,10 +63,10 @@ const PredictionChart = () => {
   };
 
   // Generate synthetic prediction scenarios after shock
-  const generateSyntheticData = (realData) => {
+  const generateSyntheticData = (realData: RealDataPoint[]): SyntheticDataPoint[] => {
     const shockIndex = 30;
     const shockPrice = realData[shockIndex].real;
-    const scenarios = [];
+    const scenarios: SyntheticDataPoint[] = [];
 
     // Generate 80 different synthetic scenarios with directional bias
     for (let scenario = 0; scenario < 80; scenario++) {
@@ -92,7 +118,7 @@ const PredictionChart = () => {
   const syntheticData = generateSyntheticData(realData);
 
   // Combine data for chart
-  const chartData = [];
+  const chartData: ChartDataPoint[] = [];
 
   // Add real data points
   realData.forEach((point) => {
@@ -104,7 +130,7 @@ const PredictionChart = () => {
   });
 
   // Add synthetic scenarios - make sure they start exactly at shock point
-  const syntheticByDate = {};
+  const syntheticByDate: { [key: string]: { [key: string]: number } } = {};
   const shockDate = realData[30].date;
   const shockPrice = realData[30].real;
 
@@ -136,16 +162,16 @@ const PredictionChart = () => {
   });
 
   // Sort by date
-  chartData.sort((a, b) => new Date(a.date) - new Date(b.date));
+  chartData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const formatDate = (dateStr) => {
+  const formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
     return `${String(date.getMonth() + 1).padStart(2, "0")}-${String(
       date.getDate()
     ).padStart(2, "0")}`;
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const realValue = payload.find((p) => p.dataKey === "real")?.value;
       const syntheticValues = payload.filter((p) =>
@@ -154,7 +180,7 @@ const PredictionChart = () => {
 
       return (
         <div className="bg-white p-3 border border-gray-300 rounded shadow-lg">
-          <p className="font-semibold">{formatDate(label)}</p>
+          <p className="font-semibold">{label ? formatDate(label) : ''}</p>
           {realValue && (
             <p className="text-red-600">Real: ${realValue.toLocaleString()}</p>
           )}
@@ -194,7 +220,7 @@ const PredictionChart = () => {
           />
           <YAxis
             domain={["dataMin - 5000", "dataMax + 5000"]}
-            tickFormatter={(value) => (value / 1000).toFixed(0) + "K"}
+            tickFormatter={(value: number) => (value / 1000).toFixed(0) + "K"}
             fontSize={10}
           />
           <Tooltip content={<CustomTooltip />} />
@@ -212,7 +238,7 @@ const PredictionChart = () => {
             dataKey="real"
             stroke="#dc2626"
             strokeWidth={2.5}
-            dot={(props) => {
+            dot={(props: any) => {
               // Only show dot at shock event point
               if (props.payload && props.payload.shockEvent) {
                 return (
@@ -257,4 +283,3 @@ const PredictionChart = () => {
 };
 
 export default PredictionChart;
-

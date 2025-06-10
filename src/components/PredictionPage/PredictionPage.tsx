@@ -5,7 +5,7 @@ interface PredictionPageProps {
   onBack: () => void;
 }
 
-function PredictionPage({ shockEvent, onBack }: PredictionPageProps) {
+function PredictionPage({ shockEvent }: PredictionPageProps) {
   return (
     <div className="p-8">
       {/* Header Section */}
