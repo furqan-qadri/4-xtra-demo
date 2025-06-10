@@ -5,7 +5,7 @@ import PredictionPage from "./components/PredictionPage/PredictionPage";
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>("input"); // Add page state
-  const [shockEvent, setShockEvent] = useState<string>(""); // Store the shock event
+  const [shockEvent, setShockEvent] = useState<string>("");
 
   const handleSubmitShockEvent = (eventText: string): void => {
     setShockEvent(eventText);
