@@ -7,9 +7,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ArrowRight, TrendingUp, TrendingDown } from "lucide-react";
-import PredictionChart from "./PredictionPage/PredictionChart";
 const ForecastPage = ({
-  shockEvent,
+  // shockEvent,
   onBack,
   onNavigateToPrediction,
 }: {
@@ -261,6 +260,7 @@ const ForecastPage = ({
               strokeWidth={3}
               dot={{ fill: color, strokeWidth: 2, r: 2 }}
               activeDot={{ r: 6, stroke: color, strokeWidth: 2 }}
+              animationDuration={5000}
             />
           </LineChart>
         </ResponsiveContainer>
@@ -299,6 +299,7 @@ const ForecastPage = ({
               stroke={color}
               strokeWidth={2}
               dot={false}
+              animationDuration={5000} // Add this
             />
           </LineChart>
         </ResponsiveContainer>
