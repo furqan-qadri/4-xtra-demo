@@ -320,11 +320,10 @@ const ForecastPage = ({
             </button>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Impact Analysis: Nuclear Escalation Scenario
+            Impact Analysis: Trump tariffs introduced on several countries
           </h1>
           <p className="text-lg text-gray-600">
-            {shockEvent ||
-              "Russia-Ukraine conflict escalating to nuclear confrontation"}
+            {"Some markets facing more than 100% tariffs"}
           </p>
         </div>
 
@@ -409,10 +408,10 @@ const ForecastPage = ({
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex gap-1">
+        {/* <div className="flex gap-1">
           <PredictionChart />
           <PredictionChart />
-        </div>
+        </div> */}
       </div>
     </div>
   );

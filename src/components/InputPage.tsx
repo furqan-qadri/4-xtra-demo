@@ -186,13 +186,13 @@ const InputPage: React.FC<InputPageProps> = ({ onSubmit }) => {
                   <button
                     onClick={() =>
                       setInputValue(
-                        "Major cyber attack on global financial systems"
+                        "Trump tariffs slapped on several countries at once"
                       )
                     }
                     className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
                   >
                     <span className="text-gray-700">
-                      Major cyber attack on global financial systems
+                      Trump tariffs slapped on several countries at once
                     </span>
                   </button>
                   <button
