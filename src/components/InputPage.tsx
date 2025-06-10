@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, TrendingUp, BarChart3, Globe, Zap } from "lucide-react";
-import AppearingChart from "./PredictionPage/AppearingChart";
 
 interface InputPageProps {
   onSubmit: (inputValue: string) => void;

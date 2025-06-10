@@ -63,7 +63,9 @@ const PredictionChart: React.FC = () => {
   };
 
   // Generate synthetic prediction scenarios after shock
-  const generateSyntheticData = (realData: RealDataPoint[]): SyntheticDataPoint[] => {
+  const generateSyntheticData = (
+    realData: RealDataPoint[]
+  ): SyntheticDataPoint[] => {
     const shockIndex = 30;
     const shockPrice = realData[shockIndex].real;
     const scenarios: SyntheticDataPoint[] = [];
@@ -162,7 +164,9 @@ const PredictionChart: React.FC = () => {
   });
 
   // Sort by date
-  chartData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  chartData.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   const formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
@@ -171,7 +175,11 @@ const PredictionChart: React.FC = () => {
     ).padStart(2, "0")}`;
   };
 
-  const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
+  const CustomTooltip: React.FC<TooltipProps> = ({
+    active,
+    payload,
+    label,
+  }) => {
     if (active && payload && payload.length) {
       const realValue = payload.find((p) => p.dataKey === "real")?.value;
       const syntheticValues = payload.filter((p) =>
@@ -180,7 +188,7 @@ const PredictionChart: React.FC = () => {
 
       return (
         <div className="bg-white p-3 border border-gray-300 rounded shadow-lg">
-          <p className="font-semibold">{label ? formatDate(label) : ''}</p>
+          <p className="font-semibold">{label ? formatDate(label) : ""}</p>
           {realValue && (
             <p className="text-red-600">Real: ${realValue.toLocaleString()}</p>
           )}
@@ -252,7 +260,7 @@ const PredictionChart: React.FC = () => {
                   />
                 );
               }
-              return null;
+              return <circle r={0} />; // Return invisible circle instead of null
             }}
             connectNulls={false}
           />

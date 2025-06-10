@@ -13,7 +13,6 @@ const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
 }) => {
   const [revealPercentage, setRevealPercentage] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
   const animationRef = useRef<number | undefined>(undefined);
   const startTimeRef = useRef<number | undefined>(undefined);
 
@@ -21,7 +20,6 @@ const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
     if (isAnimating) return;
 
     setIsAnimating(true);
-    setIsComplete(false);
     setRevealPercentage(0);
     startTimeRef.current = Date.now();
 
@@ -38,20 +36,10 @@ const ProgressiveGraphReveal: React.FC<ProgressiveGraphRevealProps> = ({
         animationRef.current = requestAnimationFrame(animate);
       } else {
         setIsAnimating(false);
-        setIsComplete(true);
       }
     };
 
     animationRef.current = requestAnimationFrame(animate);
-  };
-
-  const resetAnimation = () => {
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-    setRevealPercentage(0);
-    setIsAnimating(false);
-    setIsComplete(false);
   };
 
   useEffect(() => {
