@@ -6,8 +6,14 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import { ArrowRight, TrendingUp, TrendingDown, BarChart3 } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import {
+  ArrowRight,
+  TrendingUp,
+  TrendingDown,
+  BarChart3,
+  Cpu,
+} from "lucide-react";
+import React, { useState, useEffect, useMemo, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   MAIN_IMPACTED_SECTORS,
@@ -26,68 +32,97 @@ import {
 
 const ForecastPage: React.FC = () => {
   const navigate = useNavigate();
+
+  /* ─────────── phased UI state ─────────── */
+
   const [currentPhase, setCurrentPhase] = useState<
-    "header" | "processing" | "charts"
+    "header" | "processing" | "charts" | "engine-loader"
   >("header");
   const [processingIndex, setProcessingIndex] = useState(0);
-  const [visibleCharts, setVisibleCharts] = useState<number[]>([]);
-  const [currentChartIndex, setCurrentChartIndex] = useState(0);
+
   const [showMainTitle, setShowMainTitle] = useState(false);
+  const [showChart1, setShowChart1] = useState(false);
+  const [showChart2, setShowChart2] = useState(false);
+  const [showChart3, setShowChart3] = useState(false);
+  const [chartsVisible, setChartsVisible] = useState(true);
+
+  /* which charts are currently visible? */
+  const visibleCharts = useMemo(() => {
+    const arr: number[] = [];
+    if (showChart1) arr.push(0);
+    if (showChart2) arr.push(1);
+    if (showChart3) arr.push(2);
+    return arr;
+  }, [showChart1, showChart2, showChart3]);
+
+  /* ─────────── timers for the three phases ─────────── */
 
   useEffect(() => {
-    // Phase 1: Show header for 2 seconds
-    const headerTimer = setTimeout(() => {
-      setCurrentPhase("processing");
-    }, 2000);
-
+    const headerTimer = setTimeout(() => setCurrentPhase("processing"), 2000);
     return () => clearTimeout(headerTimer);
   }, []);
 
   useEffect(() => {
-    if (currentPhase === "processing") {
-      // Phase 2: Cycle through processing headings
-      const processingTimer = setInterval(() => {
-        setProcessingIndex((prev) => {
-          if (prev >= PROCESSING_HEADINGS.length - 1) {
-            setCurrentPhase("charts");
-            return prev;
-          }
-          return prev + 1;
-        });
-      }, 200);
+    if (currentPhase !== "processing") return;
 
-      return () => clearInterval(processingTimer);
-    }
+    const timer = setInterval(() => {
+      setProcessingIndex((i) => {
+        if (i >= PROCESSING_HEADINGS.length - 1) {
+          setCurrentPhase("charts");
+          return i;
+        }
+        return i + 1;
+      });
+    }, 200);
+
+    return () => clearInterval(timer);
   }, [currentPhase]);
 
   useEffect(() => {
-    if (currentPhase === "charts") {
-      // Step 1: Show main title first (2 seconds)
-      if (!showMainTitle) {
-        const titleTimer = setTimeout(() => {
-          setShowMainTitle(true);
-        }, 2000);
-        return () => clearTimeout(titleTimer);
+    if (currentPhase !== "charts") return;
+
+    setShowMainTitle(true);
+
+    const t1 = setTimeout(() => setShowChart1(true), 1000);
+    const t2 = setTimeout(() => setShowChart2(true), 5000);
+    const t3 = setTimeout(() => setShowChart3(true), 9000);
+
+    // Transition to engine loader after all charts are shown
+    const engineTransition = setTimeout(() => {
+      setChartsVisible(false);
+      setTimeout(() => setCurrentPhase("engine-loader"), 800);
+    }, 12000);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(engineTransition);
+    };
+  }, [currentPhase]);
+
+  /* ─────────── keyboard event handler ─────────── */
+
+  useEffect(() => {
+    if (currentPhase !== "engine-loader") return;
+
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
+      ) {
+        navigate("/prediction");
       }
+    };
 
-      // Step 2: Show charts one by one with 4-second gaps
-      if (showMainTitle && currentChartIndex < MAIN_IMPACTED_SECTORS.length) {
-        const chartTimer = setTimeout(
-          () => {
-            setVisibleCharts((prev) => [...prev, currentChartIndex]);
-            setCurrentChartIndex((prev) => prev + 1);
-          },
-          currentChartIndex === 0 ? 1000 : 4000
-        ); // 1s for first chart after title, 4s gap between subsequent charts
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [currentPhase, navigate]);
 
-        return () => clearTimeout(chartTimer);
-      }
-    }
-  }, [currentPhase, showMainTitle, currentChartIndex]);
+  /* ─────────── helpers ─────────── */
 
-  const handleNavigateToPrediction = () => {
-    navigate("/prediction");
-  };
+  const handleNavigateToPrediction = () => navigate("/prediction");
+
+  /* ─────────── sub-components ─────────── */
 
   const ProcessingBanner = () => (
     <div className="flex items-center justify-center min-h-[400px]">
@@ -95,184 +130,222 @@ const ForecastPage: React.FC = () => {
         <div className="flex items-center justify-center mb-6">
           <div className="relative">
             <BarChart3 className="w-12 h-12 text-blue-600 animate-pulse" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-ping"></div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-ping" />
           </div>
         </div>
-        <div className="text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4 transition-all duration-500 ease-in-out transform">
-            {PROCESSING_HEADINGS[processingIndex]}
-          </h3>
-          <div className="flex justify-center space-x-1">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-            <div
-              className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
-              style={{ animationDelay: "0.1s" }}
-            ></div>
-            <div
-              className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
-              style={{ animationDelay: "0.2s" }}
-            ></div>
-          </div>
+        <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+          {PROCESSING_HEADINGS[processingIndex]}
+        </h3>
+        <div className="flex justify-center space-x-1">
+          <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
+          <div
+            className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+            style={{ animationDelay: "0.1s" }}
+          />
+          <div
+            className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+            style={{ animationDelay: "0.2s" }}
+          />
         </div>
       </div>
     </div>
   );
 
-  const MainChart = ({
-    name,
-    data,
-    color,
-    change,
-    unit = "$",
-  }: MarketSector) => (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
-          <div className="flex items-center mt-1">
-            {isPositiveChange(change) ? (
-              <TrendingUp className="w-4 h-4 text-green-500 mr-1 animate-bounce" />
-            ) : (
-              <TrendingDown className="w-4 h-4 text-red-500 mr-1 animate-bounce" />
-            )}
-            <span
-              className={`text-sm font-medium ${getChangeColor(
-                change
-              )} animate-pulse`}
-            >
-              {change}
-            </span>
+  const EngineLoader = () => (
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
+        <div className="flex items-center justify-center mb-8">
+          <div className="relative">
+            <Cpu
+              className="w-16 h-16 text-blue-600 animate-spin"
+              style={{ animationDuration: "3s" }}
+            />
+            <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full animate-pulse" />
           </div>
         </div>
-      </div>
-      <div className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke={CHART_CONFIG.gridColor}
-            />
-            <XAxis
-              dataKey="date"
-              tickFormatter={formatDate}
-              stroke={CHART_CONFIG.textColor}
-              fontSize={12}
-            />
-            <YAxis
-              stroke={CHART_CONFIG.textColor}
-              fontSize={12}
-              tickFormatter={(value) => formatPrice(value, unit)}
-            />
-            <Line
-              type="monotone"
-              dataKey="price"
-              stroke={color}
-              strokeWidth={CHART_CONFIG.strokeWidth}
-              dot={{ fill: color, strokeWidth: 2, r: 2 }}
-              activeDot={{
-                r: CHART_CONFIG.activeDotRadius,
-                stroke: color,
-                strokeWidth: 2,
+
+        <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+          Passing Data to 4-Xtra Engine
+        </h3>
+
+        <div className="mb-8">
+          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+            <div
+              className="h-full bg-blue-600 animate-pulse rounded-full"
+              style={{
+                background:
+                  "linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa, #2563eb)",
+                backgroundSize: "200% 100%",
+                animation: "shimmer 2s ease-in-out infinite",
               }}
-              animationDuration={CHART_CONFIG.animationDuration}
             />
-          </LineChart>
-        </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* <div className="flex justify-center space-x-2 mb-8">
+          <div className="w-3 h-3 bg-blue-600 rounded-full animate-bounce" />
+          <div
+            className="w-3 h-3 bg-blue-600 rounded-full animate-bounce"
+            style={{ animationDelay: "0.1s" }}
+          />
+          <div
+            className="w-3 h-3 bg-blue-600 rounded-full animate-bounce"
+            style={{ animationDelay: "0.2s" }}
+          />
+        </div> */}
+
+        {/* <p className="text-gray-600 text-center text-lg mb-4">
+          Advanced AI processing in progress...
+        </p> */}
+
+        {/* <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
+          <span>Press any arrow key to continue</span>
+          <ArrowRight className="w-4 h-4 animate-pulse" />
+        </div> */}
       </div>
+
+      {/* Add shimmer keyframes via style tag */}
+      <style jsx>{`
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+      `}</style>
     </div>
   );
 
-  const showSectionTitle = currentPhase === "charts" && showMainTitle;
-  const showButton = visibleCharts.length === MAIN_IMPACTED_SECTORS.length;
+  const MainChart = memo(
+    ({ name, data, color, change, unit = "$" }: MarketSector) => {
+      /* one-time animation flag */
+      const [animate, setAnimate] = useState(true);
+      useEffect(() => setAnimate(false), []);
+
+      return (
+        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          {/* header */}
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+              <div className="flex items-center mt-1">
+                {isPositiveChange(change) ? (
+                  <TrendingUp className="w-4 h-4 text-green-500 mr-1 animate-bounce" />
+                ) : (
+                  <TrendingDown className="w-4 h-4 text-red-500 mr-1 animate-bounce" />
+                )}
+                <span
+                  className={`text-sm font-medium ${getChangeColor(
+                    change
+                  )} animate-pulse`}
+                >
+                  {change}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* chart */}
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data}>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke={CHART_CONFIG.gridColor}
+                />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={formatDate}
+                  stroke={CHART_CONFIG.textColor}
+                  fontSize={12}
+                />
+                <YAxis
+                  stroke={CHART_CONFIG.textColor}
+                  fontSize={12}
+                  tickFormatter={(v) => formatPrice(v, unit)}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="price"
+                  stroke={color}
+                  strokeWidth={CHART_CONFIG.strokeWidth}
+                  dot={{ fill: color, strokeWidth: 2, r: 2 }}
+                  activeDot={{
+                    r: CHART_CONFIG.activeDotRadius,
+                    stroke: color,
+                    strokeWidth: 2,
+                  }}
+                  animationDuration={CHART_CONFIG.animationDuration}
+                  isAnimationActive={animate}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      );
+    }
+  );
+
+  /* ─────────── render ─────────── */
 
   return (
     <div className="w-full h-full bg-gray-50 overflow-y-auto">
-      <div className="w-4/5 mx-auto p-8">
-        {/* Header - Always visible but with animation */}
-        <div
-          className={`mb-8 transition-all duration-1000 ${
-            currentPhase === "header"
-              ? "opacity-100 transform translate-y-0"
-              : "opacity-100"
-          }`}
-        >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text">
-            {SHOCK_EVENT_ANALYSIS.title}
-          </h1>
-          <p className="text-lg text-gray-600">
-            {SHOCK_EVENT_ANALYSIS.subtitle}
-          </p>
-        </div>
+      {currentPhase === "engine-loader" ? (
+        <EngineLoader />
+      ) : (
+        <div className="w-4/5 mx-auto p-8">
+          {/* header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text">
+              {SHOCK_EVENT_ANALYSIS.title}
+            </h1>
+            <p className="text-lg text-gray-600">
+              {SHOCK_EVENT_ANALYSIS.subtitle}
+            </p>
+          </div>
 
-        {/* Processing Banner */}
-        {currentPhase === "processing" && <ProcessingBanner />}
+          {currentPhase === "processing" && <ProcessingBanner />}
 
-        {/* Charts Section */}
-        {currentPhase === "charts" && (
-          <div className="space-y-8">
-            {/* Section Title */}
+          {currentPhase === "charts" && (
             <div
-              className={`transition-all duration-1000 ${
-                showSectionTitle
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
+              className={`space-y-8 transition-all duration-800 transform ${
+                chartsVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+              {/* section title */}
+              <h2
+                className={`text-2xl font-bold text-gray-900 mb-6 text-center transition-all duration-1000 ${
+                  showMainTitle
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+              >
                 {UI_TEXT.MAIN_TITLE}
               </h2>
-            </div>
 
-            {/* Charts Grid - Keep original 3-column structure */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-              {MAIN_IMPACTED_SECTORS.map((sector, index) => (
-                <div key={`sector-${index}`}>
-                  {/* Chart - Show only if visible, no refreshing */}
-                  <div
-                    className={`transition-all duration-1000 transform ${
-                      visibleCharts.includes(index)
-                        ? "opacity-100 translate-y-0 scale-100"
-                        : "opacity-0"
-                    }`}
-                  >
-                    {visibleCharts.includes(index) && (
-                      <MainChart
-                        name={sector.name}
-                        data={sector.data}
-                        color={sector.color}
-                        change={sector.change}
-                        unit={sector.unit}
-                        isVisible={true}
-                        delay={0}
-                      />
-                    )}
+              {/* charts grid */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                {MAIN_IMPACTED_SECTORS.map((sector, i) => (
+                  <div key={sector.name}>
+                    <div
+                      className={`min-h-[16rem] transition-all duration-1000 transform ${
+                        visibleCharts.includes(i)
+                          ? "opacity-100 translate-y-0 scale-100"
+                          : "opacity-0"
+                      }`}
+                    >
+                      {visibleCharts.includes(i) && <MainChart {...sector} />}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Action Button */}
-            {showButton && (
-              <div
-                className={`flex justify-center pt-8 transition-all duration-1000 transform ${
-                  showButton
-                    ? "opacity-100 translate-y-0 scale-100"
-                    : "opacity-0 translate-y-8 scale-95"
-                }`}
-                style={{ transitionDelay: "1000ms" }}
-              >
-                <button
-                  onClick={handleNavigateToPrediction}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center space-x-3 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  <span>{UI_TEXT.BUTTON_TEXT}</span>
-                  <ArrowRight className="w-5 h-5 animate-pulse" />
-                </button>
+                ))}
               </div>
-            )}
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

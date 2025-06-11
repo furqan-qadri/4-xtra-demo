@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
             onClick={handleLogoClick}
             className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
           >
-            4-Xtra Technologies
+            {/* 4-Xtra Technologies */}
           </button>
         </div>
       </div>
