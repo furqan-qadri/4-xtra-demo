@@ -10,7 +10,7 @@ interface ChartsGridProps {
 }
 
 const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
-  <div className="p-8 animate-fade-in">
+  <div className="p-8 w-full animate-fade-in">
     <div
       className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 ${
         showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -34,8 +34,7 @@ const PredictionPage: React.FC = () => {
   /* ─── chart / text timers ─── */
   useEffect(() => {
     const chartTimer = setTimeout(() => setShowCharts(true), 500);
-    const textTimer = setTimeout(() => setShowGeneratingText(false), 13000);
-
+    const textTimer = setTimeout(() => setShowGeneratingText(false), 6500);
     return () => {
       clearTimeout(chartTimer);
       clearTimeout(textTimer);
@@ -56,7 +55,7 @@ const PredictionPage: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-screen relative overflow-y-auto">
+    <div className="w-full h-screen relative overflow-y-auto flex flex-col items-center justify-center">
       {/* CSS Styles */}
       <style>{`
         @keyframes fade-in {
@@ -87,30 +86,31 @@ const PredictionPage: React.FC = () => {
         }
       `}</style>
 
-      {/* Header */}
-      <div className="p-8 pb-0 relative z-10">
-        <div className="flex items-center justify-between mb-2">
-          <h1 className="text-3xl font-bold text-gray-900">Market Scenarios</h1>
+      {/* Centered Content Container */}
+      <div className="w-full max-w-7xl mx-auto flex flex-col">
+        {/* Header */}
+        <div className="p-8 pb-0 relative">
+          <div className="flex mb-2 justify-between">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Market Scenarios
+            </h1>
+            <div
+              className={`text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
+                showGeneratingText ? "animate-blink opacity-100" : "opacity-0"
+              }`}
+            >
+              Generating Synthetic Trajectories...
+            </div>
+          </div>
+          <p className="text-lg text-gray-600">
+            Event: {shockEvent || "Trump imposing 100% tariffs"}
+          </p>
         </div>
-        <p className="text-lg text-gray-600">
-          Event: {shockEvent || "Trump imposing 100% tariffs"}
-        </p>
-      </div>
 
-      <div className="flex items-center justify-center">
-        <div
-          className={`text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
-            showGeneratingText ? "animate-blink opacity-100" : "opacity-0"
-          }`}
-          style={{ minWidth: "280px" }}
-        >
-          Generating Synthetic Trajectories...
+        {/* Memoized Charts Grid */}
+        <div className="relative z-10 w-full flex justify-center">
+          <ChartsGrid showCharts={showCharts} />
         </div>
-      </div>
-
-      {/* Memoized Charts Grid */}
-      <div className="relative z-10">
-        <ChartsGrid showCharts={showCharts} />
       </div>
     </div>
   );
