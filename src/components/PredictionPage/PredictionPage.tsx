@@ -9,30 +9,14 @@ const PredictionPage: React.FC = () => {
   const navigate = useNavigate();
   const { shockEvent } = useContext(ShockEventContext);
 
-  /* ─────────── phased UI state ─────────── */
-  const [currentPhase, setCurrentPhase] = useState<"processing" | "content">(
-    "processing"
-  );
-  const [processingIndex, setProcessingIndex] = useState(0);
+  /* ─────────── UI state ─────────── */
   const [showCharts, setShowCharts] = useState(false);
 
-  /* ─────────── processing phase timer ─────────── */
+  /* ─────────── chart loading timer ─────────── */
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProcessingIndex((i) => {
-        if (i >= PREDICTION_HEADINGS.length - 1) {
-          setTimeout(() => {
-            setCurrentPhase("content");
-            // Show charts after a delay
-            setTimeout(() => setShowCharts(true), 1000);
-          }, 2000);
-          return i;
-        }
-        return i + 1;
-      });
-    }, 200);
-
-    return () => clearInterval(timer);
+    // Show charts after a short delay
+    const timer = setTimeout(() => setShowCharts(true), 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleBack = () => {
@@ -40,33 +24,6 @@ const PredictionPage: React.FC = () => {
   };
 
   /* ─────────── sub-components ─────────── */
-  const ProcessingBanner = () => (
-    <div className="flex items-center justify-center min-h-[400px] mt-16">
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-12 max-w-2xl w-full mx-4 shadow-lg">
-        <div className="flex items-center justify-center mb-6">
-          <div className="relative">
-            <BarChart3 className="w-12 h-12 text-blue-600 animate-pulse" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-ping" />
-          </div>
-        </div>
-        <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-          {PREDICTION_HEADINGS[processingIndex]}
-        </h3>
-        <div className="flex justify-center space-x-1">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
-          <div
-            className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
-            style={{ animationDelay: "0.1s" }}
-          />
-          <div
-            className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
-            style={{ animationDelay: "0.2s" }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-
   const MainContent = () => (
     <div className="p-8 animate-fade-in">
       {/* Charts Grid */}
@@ -120,7 +77,7 @@ const PredictionPage: React.FC = () => {
   );
 
   return (
-    <div className="w-full h-full bg-gray-50 overflow-y-auto">
+    <div className="w-full h-full bg-transparent overflow-y-auto">
       {/* Header Section - Always visible */}
       <div className="p-8 pb-0">
         <div className="flex items-center mb-4">
@@ -131,18 +88,21 @@ const PredictionPage: React.FC = () => {
             ← Back to Forecast
           </button>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Extreme Scenarios
-        </h1>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Extreme Scenarios
+          </h1>
+        </div>
         <p className="text-lg text-gray-600">
-          Event: {shockEvent || "Trump imposing 100% tariffs"}
+          {/* Event: {shockEvent || "Trump imposing 100% tariffs"} */}
+          Event: {"Trump tariffs intensify in the next week"}
         </p>
       </div>
 
-      {/* Processing Steps or Content */}
-      {currentPhase === "processing" ? <ProcessingBanner /> : <MainContent />}
+      {/* Main Content */}
+      <MainContent />
 
-      {/* Add fade-in animation for content */}
+      {/* Add fade-in and blink animations */}
       <style jsx>{`
         @keyframes fade-in {
           from {

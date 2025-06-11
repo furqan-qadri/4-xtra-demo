@@ -6,12 +6,11 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import { TrendingUp, TrendingDown, BarChart3, Cpu } from "lucide-react";
-import React, { useState, useEffect, useMemo, memo } from "react";
+import { TrendingUp, TrendingDown, Cpu } from "lucide-react";
+import React, { useState, useEffect, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   MAIN_IMPACTED_SECTORS,
-  SHOCK_EVENT_ANALYSIS,
   CHART_CONFIG,
   UI_TEXT,
   PROCESSING_HEADINGS,
@@ -97,7 +96,6 @@ const ForecastPage: React.FC = () => {
 
   const LoadingComponent = ({
     title,
-    showProgressBar = false,
   }: {
     title: string;
     showProgressBar?: boolean;
