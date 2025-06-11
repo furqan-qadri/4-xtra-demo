@@ -118,7 +118,7 @@ const ForecastPage: React.FC = () => {
               style={{ animationDuration: "3s" }}
             />
             <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full animate-pulse" />
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full animate-pulse" />
           </div>
         </div>
 

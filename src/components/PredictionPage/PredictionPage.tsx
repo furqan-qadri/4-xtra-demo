@@ -16,31 +16,31 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
         showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
-      <MemoAppearingChart
+      {/* <MemoAppearingChart
         title="Crude Oil"
         subheading="Variation of Crude Oil"
         imageUrl="/assets/crude.jpg"
-      />
+      /> */}
       <MemoAppearingChart
         title="BTCUSD"
         subheading="Variation of BTC"
         imageUrl="/assets/bitcoin.png"
       />
-      <MemoAppearingChart
+      {/* <MemoAppearingChart
         title="Gold"
         subheading="Variation of Gold"
         imageUrl="/assets/Gold.jpg"
-      />
+      /> */}
       <MemoAppearingChart
         title="NASDAQ 100"
         subheading="Variation of NASDAQ"
         imageUrl="/assets/nasdaq.png"
       />
-      <MemoAppearingChart
+      {/* <MemoAppearingChart
         title="Silver"
         subheading="Variation of Silver"
         imageUrl="/assets/silver.jpg"
-      />
+      /> */}
       <MemoAppearingChart
         title="Dow Jones Industrial Average"
         subheading="Variation of Dow Jones"
@@ -55,6 +55,11 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
         title="S&P 500 Index"
         subheading="Variation of S&P 500"
         imageUrl="/assets/sandp.png"
+      />
+       <MemoAppearingChart
+        title="BTCUSD"
+        subheading="Variation of BTC"
+        imageUrl="/assets/bitcoin.png"
       />
     </div>
   </div>
