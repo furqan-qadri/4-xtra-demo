@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  // useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import InputPage from "./components/InputPage";
 import ForecastPage from "./components/ForecastPage";
 import PredictionPage from "./components/PredictionPage/PredictionPage";
