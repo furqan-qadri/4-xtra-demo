@@ -29,8 +29,8 @@ const InputPage: React.FC = () => {
     let currentIndex = 0;
 
     const typeInterval = setInterval(() => {
-      if (currentIndex < targetText.length) {
-        setInputValue(targetText.slice(0, currentIndex + 1));
+      if (currentIndex <= targetText.length) {
+        setInputValue(targetText.slice(0, currentIndex));
         currentIndex++;
       } else {
         clearInterval(typeInterval);
@@ -38,40 +38,33 @@ const InputPage: React.FC = () => {
         console.log("Typing effect complete");
       }
     }, 60);
+
+    // Store interval reference to clear it if needed
+    return typeInterval;
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
-
-  const handleGlobalKeyDown = (e: KeyboardEvent) => {
-    console.log("Global key pressed:", e.key);
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
       e.preventDefault();
       if (isTyping) {
+        // Skip typing animation and go to forecast
         console.log("Skipping typing, going to next screen");
-        setInputValue("Trump tariffs intensify in the next week");
-        setShockEvent("Trump tariffs intensify in the next week");
+        const completeText = "Trump tariffs intensify in the next week";
+        setInputValue(completeText);
+        setShockEvent(completeText);
         setIsTyping(false);
         navigate("/forecast");
       } else if (inputValue.trim()) {
-        console.log("Going to next screen");
+        // Submit existing input
+        console.log("Going to next screen with:", inputValue);
         handleSubmit();
       } else {
-        console.log("Starting typing effect from arrow key");
+        // Start typing effect if no input
+        console.log("Starting typing effect from Enter key");
         startTypingEffect();
       }
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleGlobalKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleGlobalKeyDown);
-    };
-  }, [isTyping, inputValue]);
 
   // Flashing scenarios with different positions and timings
   const flashingScenarios = [
@@ -194,70 +187,31 @@ const InputPage: React.FC = () => {
                   readOnly={isTyping}
                 />
                 <button
-                  onClick={startTypingEffect}
-                  disabled={isTyping}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 hover:bg-black-700 disabled:bg-gray-300 text-white rounded-full p-3 transition-colors duration-200 disabled:cursor-not-allowed"
+                  onClick={() => {
+                    if (isTyping) {
+                      // Skip typing animation and go to forecast
+                      const completeText =
+                        "Trump tariffs intensify in the next week";
+                      setInputValue(completeText);
+                      setShockEvent(completeText);
+                      setIsTyping(false);
+                      navigate("/forecast");
+                    } else if (inputValue.trim()) {
+                      // Submit existing input
+                      handleSubmit();
+                    } else {
+                      // Start typing effect if no input
+                      startTypingEffect();
+                    }
+                  }}
+                  disabled={false}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 hover:bg-gray-700 text-white rounded-full p-3 transition-colors duration-200"
                 >
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             </div>
           </div>
-
-          {/* Example Scenarios */}
-          {/* <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Example Scenarios
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-              <button
-                onClick={() =>
-                  setInputValue(
-                    "Russia-Ukraine conflict escalating to nuclear confrontation"
-                  )
-                }
-                className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
-              >
-                <span className="text-gray-700">
-                  Russia-Ukraine conflict escalating to nuclear confrontation
-                </span>
-              </button>
-              <button
-                onClick={() =>
-                  setInputValue(
-                    "Trump tariffs slapped on several countries at once"
-                  )
-                }
-                className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
-              >
-                <span className="text-gray-700">
-                  Trump tariffs slapped on several countries at once
-                </span>
-              </button>
-              <button
-                onClick={() =>
-                  setInputValue("Fed raises interest rates by 200 basis points")
-                }
-                className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
-              >
-                <span className="text-gray-700">
-                  Fed raises interest rates by 200 basis points
-                </span>
-              </button>
-              <button
-                onClick={() =>
-                  setInputValue(
-                    "China implements complete trade embargo on Taiwan"
-                  )
-                }
-                className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
-              >
-                <span className="text-gray-700">
-                  China implements complete trade embargo on Taiwan
-                </span>
-              </button>
-            </div>
-          </div> */}
         </div>
       </main>
     </div>
