@@ -96,29 +96,35 @@ const ForecastPage: React.FC = () => {
   /* ─────────── sub-components ─────────── */
 
   const ProcessingBanner = () => (
-    <div className="flex items-center justify-center min-h-[400px]">
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-12 max-w-2xl w-full mx-4 shadow-lg">
-        <div className="flex items-center justify-center mb-6">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
+        <div className="flex items-center justify-center mb-8">
           <div className="relative">
-            <BarChart3 className="w-12 h-12 text-blue-600 animate-pulse" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-ping" />
+            <Cpu
+              className="w-16 h-16 text-blue-600 animate-spin"
+              style={{ animationDuration: "3s" }}
+            />
+            <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full animate-pulse" />
           </div>
         </div>
-        <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+
+        <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
           {PROCESSING_HEADINGS[processingIndex]}
         </h3>
-        <div className="flex justify-center space-x-1">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
-          <div
-            className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
-            style={{ animationDelay: "0.1s" }}
-          />
-          <div
-            className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
-            style={{ animationDelay: "0.2s" }}
-          />
-        </div>
       </div>
+
+      {/* Add shimmer keyframes via style tag */}
+      <style jsx>{`
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+      `}</style>
     </div>
   );
 
