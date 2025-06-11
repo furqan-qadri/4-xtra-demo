@@ -234,53 +234,55 @@ const ForecastPage: React.FC = () => {
 
   /* ─────────── render ─────────── */
 
-  return (
-    <div className="w-full h-full overflow-y-auto">
-      {currentPhase === "engine-loader" ? (
-        <EngineLoader />
-      ) : (
-        <div className="w-full mx-auto p-16">
-          {currentPhase === "processing" && <ProcessingBanner />}
+  if (currentPhase === "engine-loader") {
+    return <EngineLoader />;
+  }
 
-          {currentPhase === "charts" && (
-            <div
-              className={`space-y-8 transition-all duration-800 transform ${
-                chartsVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              }`}
-            >
-              {/* section title */}
-              <h2
-                className={`text-2xl font-bold text-gray-900 mb-6 text-center transition-all duration-1000 ${
-                  showMainTitle
+  if (currentPhase === "processing") {
+    return <ProcessingBanner />;
+  }
+
+  if (currentPhase === "charts") {
+    return (
+      <div className="flex items-center justify-center min-h-screen p-8">
+        <div
+          className={`max-w-7xl w-full space-y-8 transition-all duration-800 transform ${
+            chartsVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          }`}
+        >
+          {/* section title */}
+          <h1
+            className={`text-2xl font-bold text-gray-900 text-center transition-all duration-1000 ${
+              showMainTitle
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
+            {UI_TEXT.MAIN_TITLE}
+          </h1>
+
+          {/* charts grid */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            {MAIN_IMPACTED_SECTORS.map((sector, i) => (
+              <div
+                key={sector.name}
+                className={`transition-all duration-1000 transform ${
+                  showCharts
                     ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
+                    : "opacity-0 translate-y-8"
                 }`}
+                style={{ transitionDelay: `${i * 200}ms` }}
               >
-                {UI_TEXT.MAIN_TITLE}
-              </h2>
-
-              {/* charts grid */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                {MAIN_IMPACTED_SECTORS.map((sector, i) => (
-                  <div
-                    key={sector.name}
-                    className={`transition-all duration-1000 transform ${
-                      showCharts
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-8"
-                    }`}
-                    style={{ transitionDelay: `${i * 200}ms` }}
-                  >
-                    <MainChart {...sector} />
-                  </div>
-                ))}
+                <MainChart {...sector} />
               </div>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default ForecastPage;
