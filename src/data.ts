@@ -230,6 +230,16 @@ export const CHART_CONFIG: ChartConfig = {
   textColor: "#9CA3AF",
 };
 
+export const PROCESSING_HEADINGS = [
+  "Analyzing global market conditions...",
+  "Processing tariff impact scenarios...",
+  "Calculating cross-sector correlations...",
+  "Evaluating commodity price movements...",
+  "Assessing volatility patterns...",
+  "Computing risk-adjusted forecasts...",
+  "Finalizing impact analysis...",
+];
+
 export const UI_TEXT = {
   MAIN_TITLE: "Most Impacted Sectors",
   BUTTON_TEXT: "Send to 4-xtra Engine",
