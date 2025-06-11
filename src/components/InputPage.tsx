@@ -25,7 +25,7 @@ const InputPage: React.FC = () => {
     setIsTyping(true);
     setInputValue("");
 
-    const targetText = "Trump slaps 100% tariff on China";
+    const targetText = "Trump tariffs intensify in the next week";
     let currentIndex = 0;
 
     const typeInterval = setInterval(() => {
@@ -37,7 +37,7 @@ const InputPage: React.FC = () => {
         setIsTyping(false);
         console.log("Typing effect complete");
       }
-    }, 80);
+    }, 60);
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -52,8 +52,8 @@ const InputPage: React.FC = () => {
       e.preventDefault();
       if (isTyping) {
         console.log("Skipping typing, going to next screen");
-        setInputValue("Trump slaps 100% tariff on China");
-        setShockEvent("Trump slaps 100% tariff on China");
+        setInputValue("Trump tariffs intensify in the next week");
+        setShockEvent("Trump tariffs intensify in the next week");
         setIsTyping(false);
         navigate("/forecast");
       } else if (inputValue.trim()) {
@@ -76,34 +76,34 @@ const InputPage: React.FC = () => {
   // Flashing scenarios with different positions and timings
   const flashingScenarios = [
     {
-      text: "Trump slaps 100% tariff on China",
+      text: "Cascading cyber-attacks cripple global payments infrastructure",
       position: "top-20 left-16",
       delay: 0,
     },
     {
       text: "Oil prices surge to $200/barrel",
       position: "top-32 right-24",
-      delay: 800,
+      delay: 1500,
     },
     {
       text: "Fed cuts rates to zero",
       position: "bottom-40 left-12",
-      delay: 1600,
+      delay: 3000,
     },
     {
       text: "China invades Taiwan",
       position: "bottom-24 right-16",
-      delay: 2400,
+      delay: 4500,
     },
     {
       text: "Major cyberattack on banking",
       position: "top-48 left-1/3",
-      delay: 3200,
+      delay: 6000,
     },
     {
       text: "Nuclear plant meltdown in Europe",
       position: "bottom-60 right-1/3",
-      delay: 4000,
+      delay: 7500,
     },
   ];
 
@@ -175,7 +175,7 @@ const InputPage: React.FC = () => {
         <div className="text-center space-y-8 w-full max-w-6xl">
           {/* Hero Section */}
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-gray-900">WHAT IF ...</h2>
+            <h2 className="text-4xl font-bold text-gray-900">What If ...</h2>
           </div>
 
           {/* Input Section */}
@@ -187,7 +187,7 @@ const InputPage: React.FC = () => {
                   value={inputValue}
                   onChange={(e) => !isTyping && setInputValue(e.target.value)}
                   onKeyDown={handleInputKeyDown}
-                  placeholder="e.g., Trump slaps a 100% tariff on China"
+                  placeholder="e.g., Trump tariffs intensify in the next week"
                   className={`w-full px-6 py-4 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-200 ${
                     isTyping ? "cursor-default" : ""
                   }`}
@@ -196,7 +196,7 @@ const InputPage: React.FC = () => {
                 <button
                   onClick={startTypingEffect}
                   disabled={isTyping}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white rounded-full p-3 transition-colors duration-200 disabled:cursor-not-allowed"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 hover:bg-black-700 disabled:bg-gray-300 text-white rounded-full p-3 transition-colors duration-200 disabled:cursor-not-allowed"
                 >
                   <ArrowRight className="w-5 h-5" />
                 </button>
@@ -205,7 +205,7 @@ const InputPage: React.FC = () => {
           </div>
 
           {/* Example Scenarios */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-800">
               Example Scenarios
             </h3>
@@ -257,7 +257,7 @@ const InputPage: React.FC = () => {
                 </span>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
     </div>

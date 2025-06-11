@@ -58,7 +58,7 @@ const AppContent: React.FC = () => {
             <div className="min-h-screen bg-white relative">
               {/* Background with opacity */}
               <div
-                className="absolute inset-0 opacity-20"
+                className="absolute inset-0 opacity-50"
                 style={{
                   backgroundImage: 'url("/assets/input_background.png")',
                   backgroundSize: "cover",

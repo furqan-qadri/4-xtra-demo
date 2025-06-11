@@ -162,21 +162,21 @@ export const MAIN_IMPACTED_SECTORS: MarketSector[] = [
   {
     name: "Volatility Index (VIX)",
     data: VIX_DATA,
-    color: "#EF4444",
+    color: "#702cde",
     change: "+168%",
     unit: "",
   },
   {
     name: "WTI Crude Oil",
     data: OIL_DATA,
-    color: "#F59E0B",
+    color: "#702cde",
     change: "+67%",
     unit: "$",
   },
   {
-    name: "Gold Futures",
+    name: "Gold",
     data: GOLD_DATA,
-    color: "#10B981",
+    color: "#702cde",
     change: "+22%",
     unit: "$",
   },
@@ -231,16 +231,21 @@ export const CHART_CONFIG: ChartConfig = {
 };
 
 export const PROCESSING_HEADINGS = [
-  "Analyzing global market conditions...",
-  "Processing tariff impact scenarios...",
-  "Calculating cross-sector correlations...",
-  "Evaluating commodity price movements...",
-  "Assessing volatility patterns...",
-  "Computing risk-adjusted forecasts...",
-  "Finalizing impact analysis...",
+  "Analyzing...",
+  "Exploring Knowledge Base...",
+  "Pulling relevant data sources...",
+  "Mapping Macroeconomic factors...",
+  "Introducing shocks...",
+  "Validating & Testing...",
+  "Finalizing...",
+];
+
+export const PREDICTION_HEADINGS = [
+  "Introducing Macroeconomic Shocks to Financial Markets",
+  "Preparing to generate synthetic trajectories",
 ];
 
 export const UI_TEXT = {
-  MAIN_TITLE: "Most Impacted Sectors",
+  MAIN_TITLE: "Identified and Shocked Macroeconomic Drivers",
   BUTTON_TEXT: "Send to 4-xtra Engine",
 } as const;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BarChart3 } from "lucide-react";
 import AppearingChart from "./AppearingChart";
 import { ShockEventContext } from "../../App";
-import { PROCESSING_HEADINGS } from "../../data";
+import { PREDICTION_HEADINGS } from "../../data";
 
 const PredictionPage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,12 +20,12 @@ const PredictionPage: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setProcessingIndex((i) => {
-        if (i >= PROCESSING_HEADINGS.length - 1) {
+        if (i >= PREDICTION_HEADINGS.length - 1) {
           setTimeout(() => {
             setCurrentPhase("content");
             // Show charts after a delay
             setTimeout(() => setShowCharts(true), 1000);
-          }, 500);
+          }, 2000);
           return i;
         }
         return i + 1;
@@ -50,7 +50,7 @@ const PredictionPage: React.FC = () => {
           </div>
         </div>
         <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-          {PROCESSING_HEADINGS[processingIndex]}
+          {PREDICTION_HEADINGS[processingIndex]}
         </h3>
         <div className="flex justify-center space-x-1">
           <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />

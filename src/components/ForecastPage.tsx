@@ -6,13 +6,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import {
-  ArrowRight,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  Cpu,
-} from "lucide-react";
+import { TrendingUp, TrendingDown, BarChart3, Cpu } from "lucide-react";
 import React, { useState, useEffect, useMemo, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -120,8 +114,6 @@ const ForecastPage: React.FC = () => {
 
   /* ─────────── helpers ─────────── */
 
-  const handleNavigateToPrediction = () => navigate("/prediction");
-
   /* ─────────── sub-components ─────────── */
 
   const ProcessingBanner = () => (
@@ -182,27 +174,6 @@ const ForecastPage: React.FC = () => {
             />
           </div>
         </div>
-
-        {/* <div className="flex justify-center space-x-2 mb-8">
-          <div className="w-3 h-3 bg-blue-600 rounded-full animate-bounce" />
-          <div
-            className="w-3 h-3 bg-blue-600 rounded-full animate-bounce"
-            style={{ animationDelay: "0.1s" }}
-          />
-          <div
-            className="w-3 h-3 bg-blue-600 rounded-full animate-bounce"
-            style={{ animationDelay: "0.2s" }}
-          />
-        </div> */}
-
-        {/* <p className="text-gray-600 text-center text-lg mb-4">
-          Advanced AI processing in progress...
-        </p> */}
-
-        {/* <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
-          <span>Press any arrow key to continue</span>
-          <ArrowRight className="w-4 h-4 animate-pulse" />
-        </div> */}
       </div>
 
       {/* Add shimmer keyframes via style tag */}
@@ -297,16 +268,6 @@ const ForecastPage: React.FC = () => {
         <EngineLoader />
       ) : (
         <div className="w-4/5 mx-auto p-8">
-          {/* header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text">
-              {SHOCK_EVENT_ANALYSIS.title}
-            </h1>
-            <p className="text-lg text-gray-600">
-              {SHOCK_EVENT_ANALYSIS.subtitle}
-            </p>
-          </div>
-
           {currentPhase === "processing" && <ProcessingBanner />}
 
           {currentPhase === "charts" && (
