@@ -81,6 +81,19 @@ const PredictionPage: React.FC = () => {
     };
   }, []);
 
+  /* ─── navigate on Enter ─── */
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        navigate("/");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
+
   const handleBack = () => {
     navigate("/forecast");
   };

@@ -30,7 +30,7 @@ const ForecastPage: React.FC = () => {
 
   const [currentPhase, setCurrentPhase] = useState<
     "header" | "processing" | "charts" | "engine-loader"
-  >("header");
+  >("processing");
   const [processingIndex, setProcessingIndex] = useState(0);
 
   const [showMainTitle, setShowMainTitle] = useState(false);
@@ -39,10 +39,11 @@ const ForecastPage: React.FC = () => {
 
   /* ─────────── timers for the three phases ─────────── */
 
-  useEffect(() => {
-    const headerTimer = setTimeout(() => setCurrentPhase("processing"), 2000);
-    return () => clearTimeout(headerTimer);
-  }, []);
+  // Remove the initial header delay
+  // useEffect(() => {
+  //   const headerTimer = setTimeout(() => setCurrentPhase("processing"), 2000);
+  //   return () => clearTimeout(headerTimer);
+  // }, []);
 
   useEffect(() => {
     if (currentPhase !== "processing") return;
@@ -172,7 +173,7 @@ const ForecastPage: React.FC = () => {
           {/* header */}
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+              <h3 className="text-2xl font-semibold text-gray-900">{name}</h3>
               <div className="flex items-center mt-1">
                 {isPositiveChange(change) ? (
                   <TrendingUp className="w-4 h-4 text-green-500 mr-1 animate-bounce" />
@@ -251,15 +252,15 @@ const ForecastPage: React.FC = () => {
           }`}
         >
           {/* section title */}
-          <h1
-            className={`text-2xl font-bold text-gray-900 text-center transition-all duration-1000 ${
+          <h2
+            className={`text-4xl font-bold text-gray-900 text-center transition-all mb-16 duration-1000 ${
               showMainTitle
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
             }`}
           >
             {UI_TEXT.MAIN_TITLE}
-          </h1>
+          </h2>
 
           {/* charts grid */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
