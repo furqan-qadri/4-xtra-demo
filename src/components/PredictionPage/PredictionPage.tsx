@@ -91,18 +91,21 @@ const PredictionPage: React.FC = () => {
       <div className="p-8 pb-0 relative z-10">
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-3xl font-bold text-gray-900">Market Scenarios</h1>
-          <div
-            className={`text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
-              showGeneratingText ? "animate-blink opacity-100" : "opacity-0"
-            }`}
-            style={{ minWidth: "280px" }}
-          >
-            Generating Synthetic Trajectories...
-          </div>
         </div>
         <p className="text-lg text-gray-600">
           Event: {shockEvent || "Trump imposing 100% tariffs"}
         </p>
+      </div>
+
+      <div className="flex items-center justify-center">
+        <div
+          className={`text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
+            showGeneratingText ? "animate-blink opacity-100" : "opacity-0"
+          }`}
+          style={{ minWidth: "280px" }}
+        >
+          Generating Synthetic Trajectories...
+        </div>
       </div>
 
       {/* Memoized Charts Grid */}
