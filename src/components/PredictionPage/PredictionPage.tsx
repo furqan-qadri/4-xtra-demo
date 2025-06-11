@@ -34,7 +34,7 @@ const PredictionPage: React.FC = () => {
   /* ─── chart / text timers ─── */
   useEffect(() => {
     const chartTimer = setTimeout(() => setShowCharts(true), 500);
-    const textTimer = setTimeout(() => setShowGeneratingText(false), 6500);
+    const textTimer = setTimeout(() => setShowGeneratingText(false), 4500);
     return () => {
       clearTimeout(chartTimer);
       clearTimeout(textTimer);

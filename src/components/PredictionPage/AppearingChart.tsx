@@ -13,7 +13,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
   imageUrl,
   title,
   // subheading,
-  duration = 11000,
+  duration = 7000,
   autoStart = true,
   altText,
 }) => {

@@ -56,7 +56,7 @@ const ForecastPage: React.FC = () => {
         }
         return i + 1;
       });
-    }, 1000);
+    }, 800);
 
     return () => clearInterval(timer);
   }, [currentPhase]);
