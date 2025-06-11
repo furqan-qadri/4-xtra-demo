@@ -65,7 +65,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
   }, []);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md shadow-gray-500">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{title}</h2>
         <p className="text-gray-600">{subheading}</p>
