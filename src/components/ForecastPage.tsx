@@ -35,19 +35,8 @@ const ForecastPage: React.FC = () => {
   const [processingIndex, setProcessingIndex] = useState(0);
 
   const [showMainTitle, setShowMainTitle] = useState(false);
-  const [showChart1, setShowChart1] = useState(false);
-  const [showChart2, setShowChart2] = useState(false);
-  const [showChart3, setShowChart3] = useState(false);
+  const [showCharts, setShowCharts] = useState(false);
   const [chartsVisible, setChartsVisible] = useState(true);
-
-  /* which charts are currently visible? */
-  const visibleCharts = useMemo(() => {
-    const arr: number[] = [];
-    if (showChart1) arr.push(0);
-    if (showChart2) arr.push(1);
-    if (showChart3) arr.push(2);
-    return arr;
-  }, [showChart1, showChart2, showChart3]);
 
   /* ─────────── timers for the three phases ─────────── */
 
@@ -77,20 +66,17 @@ const ForecastPage: React.FC = () => {
 
     setShowMainTitle(true);
 
-    const t1 = setTimeout(() => setShowChart1(true), 1000);
-    const t2 = setTimeout(() => setShowChart2(true), 5000);
-    const t3 = setTimeout(() => setShowChart3(true), 9000);
+    // Show all charts simultaneously after title
+    const chartsTimer = setTimeout(() => setShowCharts(true), 1000);
 
-    // Transition to engine loader after all charts are shown
+    // Transition to engine loader after charts are shown
     const engineTransition = setTimeout(() => {
       setChartsVisible(false);
       setTimeout(() => setCurrentPhase("engine-loader"), 800);
-    }, 12000);
+    }, 8000);
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      clearTimeout(chartsTimer);
       clearTimeout(engineTransition);
     };
   }, [currentPhase]);
@@ -111,8 +97,6 @@ const ForecastPage: React.FC = () => {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [currentPhase, navigate]);
-
-  /* ─────────── helpers ─────────── */
 
   /* ─────────── sub-components ─────────── */
 
@@ -144,7 +128,7 @@ const ForecastPage: React.FC = () => {
   );
 
   const EngineLoader = () => (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
@@ -192,10 +176,6 @@ const ForecastPage: React.FC = () => {
 
   const MainChart = memo(
     ({ name, data, color, change, unit = "$" }: MarketSector) => {
-      /* one-time animation flag */
-      const [animate, setAnimate] = useState(true);
-      useEffect(() => setAnimate(false), []);
-
       return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
           {/* header */}
@@ -250,7 +230,7 @@ const ForecastPage: React.FC = () => {
                     strokeWidth: 2,
                   }}
                   animationDuration={CHART_CONFIG.animationDuration}
-                  isAnimationActive={animate}
+                  isAnimationActive={true}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -263,7 +243,7 @@ const ForecastPage: React.FC = () => {
   /* ─────────── render ─────────── */
 
   return (
-    <div className="w-full h-full bg-gray-50 overflow-y-auto">
+    <div className="w-full h-full overflow-y-auto">
       {currentPhase === "engine-loader" ? (
         <EngineLoader />
       ) : (
@@ -290,16 +270,16 @@ const ForecastPage: React.FC = () => {
               {/* charts grid */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 {MAIN_IMPACTED_SECTORS.map((sector, i) => (
-                  <div key={sector.name}>
-                    <div
-                      className={`min-h-[16rem] transition-all duration-1000 transform ${
-                        visibleCharts.includes(i)
-                          ? "opacity-100 translate-y-0 scale-100"
-                          : "opacity-0"
-                      }`}
-                    >
-                      {visibleCharts.includes(i) && <MainChart {...sector} />}
-                    </div>
+                  <div
+                    key={sector.name}
+                    className={`transition-all duration-1000 transform ${
+                      showCharts
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-8"
+                    }`}
+                    style={{ transitionDelay: `${i * 200}ms` }}
+                  >
+                    <MainChart {...sector} />
                   </div>
                 ))}
               </div>
