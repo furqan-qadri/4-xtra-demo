@@ -12,7 +12,7 @@ interface ChartsGridProps {
 const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
   <div className="p-8 animate-fade-in">
     <div
-      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-1000 ${
+      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 ${
         showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
@@ -21,27 +21,19 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
         subheading="Variation of Crude Oil"
         imageUrl="/assets/crude.jpg"
       /> */}
-      <MemoAppearingChart
-        title="BTCUSD"
-        subheading="Variation of BTC"
-        imageUrl="/assets/bitcoin.png"
-      />
+      <MemoAppearingChart title="BTCUSD" imageUrl="/assets/bitcoin.png" />
       {/* <MemoAppearingChart
         title="Gold"
         subheading="Variation of Gold"
         imageUrl="/assets/Gold.jpg"
       /> */}
-      <MemoAppearingChart
-        title="NASDAQ 100"
-        subheading="Variation of NASDAQ"
-        imageUrl="/assets/nasdaq.png"
-      />
+      <MemoAppearingChart title="NASDAQ 100" imageUrl="/assets/nasdaq.png" />
       {/* <MemoAppearingChart
         title="Silver"
         subheading="Variation of Silver"
         imageUrl="/assets/silver.jpg"
       /> */}
-      <MemoAppearingChart
+      {/* <MemoAppearingChart
         title="Dow Jones Industrial Average"
         subheading="Variation of Dow Jones"
         imageUrl="/assets/dji.png"
@@ -50,17 +42,13 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
         title="Russel 2000"
         subheading="Variation of Russel 2000"
         imageUrl="/assets/russel2000.png"
-      />
-      <MemoAppearingChart
-        title="S&P 500 Index"
-        subheading="Variation of S&P 500"
-        imageUrl="/assets/sandp.png"
-      />
-       <MemoAppearingChart
+      /> */}
+      <MemoAppearingChart title="S&P 500 Index" imageUrl="/assets/sandp.png" />
+      {/* <MemoAppearingChart
         title="BTCUSD"
         subheading="Variation of BTC"
         imageUrl="/assets/bitcoin.png"
-      />
+      /> */}
     </div>
   </div>
 ));
@@ -132,9 +120,7 @@ const PredictionPage: React.FC = () => {
       {/* Header */}
       <div className="p-8 pb-0 relative z-10">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Extreme Scenarios
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900">Market Scenarios</h1>
           <div
             className={`text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
               showGeneratingText ? "animate-blink opacity-100" : "opacity-0"

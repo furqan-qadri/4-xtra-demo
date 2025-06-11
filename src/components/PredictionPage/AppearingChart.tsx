@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 interface AppearingChartProps {
   imageUrl: string;
   title: string;
-  subheading: string;
+  // subheading: string;
   duration?: number; // Duration in milliseconds
   autoStart?: boolean;
   altText?: string; // Optional alt text for accessibility
@@ -12,8 +12,8 @@ interface AppearingChartProps {
 const AppearingChart: React.FC<AppearingChartProps> = ({
   imageUrl,
   title,
-  subheading,
-  duration = 33000,
+  // subheading,
+  duration = 11000,
   autoStart = true,
   altText,
 }) => {
@@ -68,7 +68,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
     <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md shadow-gray-500">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{title}</h2>
-        <p className="text-gray-600">{subheading}</p>
+        {/* <p className="text-gray-600">{subheading}</p> */}
       </div>
 
       <div className="relative bg-gray-50 rounded-lg overflow-hidden border-2 border-gray-200">
