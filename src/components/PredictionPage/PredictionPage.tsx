@@ -86,9 +86,9 @@ const PredictionPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full bg-transparent overflow-y-auto">
+    <div className="w-full h-screen relative overflow-y-auto">
       {/* Header */}
-      <div className="p-8 pb-0">
+      <div className="p-8 pb-0 relative z-10">
         <div className="flex items-center mb-4">
           <button
             onClick={handleBack}
@@ -116,7 +116,9 @@ const PredictionPage: React.FC = () => {
       </div>
 
       {/* Memoized Charts Grid */}
-      <ChartsGrid showCharts={showCharts} />
+      <div className="relative z-10">
+        <ChartsGrid showCharts={showCharts} />
+      </div>
 
       {/* Animations */}
       <style jsx>{`
