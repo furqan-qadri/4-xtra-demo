@@ -16,39 +16,9 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
         showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
-      {/* <MemoAppearingChart
-        title="Crude Oil"
-        subheading="Variation of Crude Oil"
-        imageUrl="/assets/crude.jpg"
-      /> */}
       <MemoAppearingChart title="BTCUSD" imageUrl="/assets/bitcoin.png" />
-      {/* <MemoAppearingChart
-        title="Gold"
-        subheading="Variation of Gold"
-        imageUrl="/assets/Gold.jpg"
-      /> */}
       <MemoAppearingChart title="NASDAQ 100" imageUrl="/assets/nasdaq.png" />
-      {/* <MemoAppearingChart
-        title="Silver"
-        subheading="Variation of Silver"
-        imageUrl="/assets/silver.jpg"
-      /> */}
-      {/* <MemoAppearingChart
-        title="Dow Jones Industrial Average"
-        subheading="Variation of Dow Jones"
-        imageUrl="/assets/dji.png"
-      />
-      <MemoAppearingChart
-        title="Russel 2000"
-        subheading="Variation of Russel 2000"
-        imageUrl="/assets/russel2000.png"
-      /> */}
       <MemoAppearingChart title="S&P 500 Index" imageUrl="/assets/sandp.png" />
-      {/* <MemoAppearingChart
-        title="BTCUSD"
-        subheading="Variation of BTC"
-        imageUrl="/assets/bitcoin.png"
-      /> */}
     </div>
   </div>
 ));
