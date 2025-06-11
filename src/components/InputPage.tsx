@@ -92,13 +92,8 @@ const InputPage: React.FC = () => {
               {/* Hero Section */}
               <div className="space-y-6">
                 <h2 className="text-4xl font-bold text-gray-900">
-                  Forecast Economic Impact - WHAT IF ...
+                  WHAT IF ...
                 </h2>
-                {/* <div className="text-4xl font-bold">WHAT IF...</div> */}
-                <p className="text-xl text-gray-600 mx-auto">
-                  Enter a shock event scenario to predict its impact on global
-                  macroeconomic sectors
-                </p>
               </div>
 
               {/* Input Section */}
