@@ -93,9 +93,15 @@ const ForecastPage: React.FC = () => {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [currentPhase, navigate]);
 
-  /* ─────────── sub-components ─────────── */
+  /* ─────────── unified loading component ─────────── */
 
-  const ProcessingBanner = () => (
+  const LoadingComponent = ({
+    title,
+    showProgressBar = false,
+  }: {
+    title: string;
+    showProgressBar?: boolean;
+  }) => (
     <div className="flex items-center justify-center min-h-screen">
       <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
         <div className="flex items-center justify-center mb-8">
@@ -110,7 +116,7 @@ const ForecastPage: React.FC = () => {
         </div>
 
         <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-          {PROCESSING_HEADINGS[processingIndex]}
+          {title}
         </h3>
       </div>
 
@@ -128,51 +134,15 @@ const ForecastPage: React.FC = () => {
     </div>
   );
 
+  const ProcessingBanner = () => (
+    <LoadingComponent title={PROCESSING_HEADINGS[processingIndex]} />
+  );
+
   const EngineLoader = () => (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
-        <div className="flex items-center justify-center mb-8">
-          <div className="relative">
-            <Cpu
-              className="w-16 h-16 text-blue-600 animate-spin"
-              style={{ animationDuration: "3s" }}
-            />
-            <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full animate-pulse" />
-          </div>
-        </div>
-
-        <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-          Passing Data to 4-Xtra Engine
-        </h3>
-
-        <div className="mb-8">
-          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-            <div
-              className="h-full bg-blue-600 animate-pulse rounded-full"
-              style={{
-                background:
-                  "linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa, #2563eb)",
-                backgroundSize: "200% 100%",
-                animation: "shimmer 2s ease-in-out infinite",
-              }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Add shimmer keyframes via style tag */}
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-      `}</style>
-    </div>
+    <LoadingComponent
+      title="Passing Data to 4-Xtra Engine"
+      showProgressBar={true}
+    />
   );
 
   // Helper function to get Y-axis domain based on sector name
