@@ -56,7 +56,7 @@ const ForecastPage: React.FC = () => {
         }
         return i + 1;
       });
-    }, 200);
+    }, 1000);
 
     return () => clearInterval(timer);
   }, [currentPhase]);
@@ -81,10 +81,7 @@ const ForecastPage: React.FC = () => {
       if (currentPhase === "charts" && event.key === "Enter") {
         setChartsVisible(false);
         setTimeout(() => setCurrentPhase("engine-loader"), 800);
-      } else if (
-        currentPhase === "engine-loader" &&
-        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
-      ) {
+      } else if (currentPhase === "engine-loader" && event.key === "Enter") {
         navigate("/prediction");
       }
     };
@@ -102,6 +99,17 @@ const ForecastPage: React.FC = () => {
     showProgressBar?: boolean;
   }) => (
     <div className="flex items-center justify-center min-h-screen">
+      <style>{`
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+      `}</style>
+
       <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
@@ -118,18 +126,6 @@ const ForecastPage: React.FC = () => {
           {title}
         </h3>
       </div>
-
-      {/* Add shimmer keyframes via style tag */}
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-      `}</style>
     </div>
   );
 
@@ -144,30 +140,8 @@ const ForecastPage: React.FC = () => {
     />
   );
 
-  // Helper function to get Y-axis domain based on sector name
-  const getYAxisDomain = (sectorName: string, data: any[]) => {
-    // Check for oil or gold related keywords in the sector name
-    const isOilOrGold =
-      sectorName.toLowerCase().includes("oil") ||
-      sectorName.toLowerCase().includes("crude") ||
-      sectorName.toLowerCase().includes("gold");
-
-    if (isOilOrGold) {
-      const prices = data.map((d) => d.price);
-      const min = Math.min(...prices);
-      const max = Math.max(...prices);
-      const padding = (max - min) * 0.1; // 10% padding
-      const domainMin = min - padding;
-      const domainMax = max + padding;
-      return [domainMin, domainMax];
-    }
-    return [0, "auto"]; // Default behavior for other sectors
-  };
-
   const MainChart = memo(
     ({ name, data, color, change, unit = "$" }: MarketSector) => {
-      const yAxisDomain = getYAxisDomain(name, data);
-
       return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
           {/* header */}
@@ -206,7 +180,7 @@ const ForecastPage: React.FC = () => {
                   fontSize={12}
                 />
                 <YAxis
-                  domain={yAxisDomain}
+                  domain={["auto", "auto"]}
                   stroke={CHART_CONFIG.textColor}
                   fontSize={12}
                   tickFormatter={(v) => formatPrice(v, unit)}
