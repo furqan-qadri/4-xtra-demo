@@ -239,7 +239,7 @@ const ForecastPage: React.FC = () => {
       {currentPhase === "engine-loader" ? (
         <EngineLoader />
       ) : (
-        <div className="w-4/5 mx-auto p-8">
+        <div className="w-full mx-auto p-16">
           {currentPhase === "processing" && <ProcessingBanner />}
 
           {currentPhase === "charts" && (
