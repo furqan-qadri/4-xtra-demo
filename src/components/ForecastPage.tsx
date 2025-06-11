@@ -69,25 +69,20 @@ const ForecastPage: React.FC = () => {
     // Show all charts simultaneously after title
     const chartsTimer = setTimeout(() => setShowCharts(true), 1000);
 
-    // Transition to engine loader after charts are shown
-    const engineTransition = setTimeout(() => {
-      setChartsVisible(false);
-      setTimeout(() => setCurrentPhase("engine-loader"), 800);
-    }, 8000);
-
     return () => {
       clearTimeout(chartsTimer);
-      clearTimeout(engineTransition);
     };
   }, [currentPhase]);
 
   /* ─────────── keyboard event handler ─────────── */
 
   useEffect(() => {
-    if (currentPhase !== "engine-loader") return;
-
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (
+      if (currentPhase === "charts" && event.key === "Enter") {
+        setChartsVisible(false);
+        setTimeout(() => setCurrentPhase("engine-loader"), 800);
+      } else if (
+        currentPhase === "engine-loader" &&
         ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
       ) {
         navigate("/prediction");
@@ -174,8 +169,30 @@ const ForecastPage: React.FC = () => {
     </div>
   );
 
+  // Helper function to get Y-axis domain based on sector name
+  const getYAxisDomain = (sectorName: string, data: any[]) => {
+    // Check for oil or gold related keywords in the sector name
+    const isOilOrGold =
+      sectorName.toLowerCase().includes("oil") ||
+      sectorName.toLowerCase().includes("crude") ||
+      sectorName.toLowerCase().includes("gold");
+
+    if (isOilOrGold) {
+      const prices = data.map((d) => d.price);
+      const min = Math.min(...prices);
+      const max = Math.max(...prices);
+      const padding = (max - min) * 0.1; // 10% padding
+      const domainMin = min - padding;
+      const domainMax = max + padding;
+      return [domainMin, domainMax];
+    }
+    return [0, "auto"]; // Default behavior for other sectors
+  };
+
   const MainChart = memo(
     ({ name, data, color, change, unit = "$" }: MarketSector) => {
+      const yAxisDomain = getYAxisDomain(name, data);
+
       return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
           {/* header */}
@@ -214,6 +231,7 @@ const ForecastPage: React.FC = () => {
                   fontSize={12}
                 />
                 <YAxis
+                  domain={yAxisDomain}
                   stroke={CHART_CONFIG.textColor}
                   fontSize={12}
                   tickFormatter={(v) => formatPrice(v, unit)}
