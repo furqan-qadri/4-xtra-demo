@@ -37,6 +37,16 @@ const ForecastPage: React.FC = () => {
   const [showCharts, setShowCharts] = useState(false);
   const [chartsVisible, setChartsVisible] = useState(true);
 
+  /* ─────────── navigation handler ─────────── */
+  const handleNavigateNext = () => {
+    if (currentPhase === "charts") {
+      setChartsVisible(false);
+      setTimeout(() => setCurrentPhase("engine-loader"), 800);
+    } else if (currentPhase === "engine-loader") {
+      navigate("/prediction");
+    }
+  };
+
   /* ─────────── timers for the three phases ─────────── */
 
   // Remove the initial header delay
@@ -78,11 +88,8 @@ const ForecastPage: React.FC = () => {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (currentPhase === "charts" && event.key === "Enter") {
-        setChartsVisible(false);
-        setTimeout(() => setCurrentPhase("engine-loader"), 800);
-      } else if (currentPhase === "engine-loader" && event.key === "Enter") {
-        navigate("/prediction");
+      if (event.key === "Enter") {
+        handleNavigateNext();
       }
     };
 
@@ -110,7 +117,7 @@ const ForecastPage: React.FC = () => {
         }
       `}</style>
 
-      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl">
+      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl transition-all duration-300 active:scale-95">
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
             <Cpu
@@ -122,7 +129,7 @@ const ForecastPage: React.FC = () => {
           </div>
         </div>
 
-        <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+        <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 text-center">
           {title}
         </h3>
       </div>
@@ -134,16 +141,21 @@ const ForecastPage: React.FC = () => {
   );
 
   const EngineLoader = () => (
-    <LoadingComponent
-      title="Passing Shocked Drivers to 4-Xtra Engine"
-      showProgressBar={true}
-    />
+    <div onClick={handleNavigateNext} className="cursor-pointer">
+      <LoadingComponent
+        title="Passing Shocked Drivers to 4-Xtra Engine"
+        showProgressBar={true}
+      />
+    </div>
   );
 
   const MainChart = memo(
     ({ name, data, color, change, unit = "$" }: MarketSector) => {
       return (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div
+          className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95"
+          onClick={handleNavigateNext}
+        >
           {/* header */}
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -227,7 +239,7 @@ const ForecastPage: React.FC = () => {
         >
           {/* section title */}
           <h2
-            className={`text-4xl font-bold text-gray-900 text-center transition-all mb-16 duration-1000 ${
+            className={`text-3xl lg:text-4xl font-bold text-gray-900 text-center transition-all mb-16 duration-1000 ${
               showMainTitle
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
