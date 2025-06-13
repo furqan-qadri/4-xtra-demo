@@ -7,21 +7,36 @@ const MemoAppearingChart = memo(AppearingChart);
 
 interface ChartsGridProps {
   showCharts: boolean;
+  onChartClick: () => void;
 }
 
-const ChartsGrid: React.FC<ChartsGridProps> = memo(({ showCharts }) => (
-  <div className="p-8 w-full animate-fade-in">
-    <div
-      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 ${
-        showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-    >
-      <MemoAppearingChart title="BTCUSD" imageUrl="/assets/bitcoin.png" />
-      <MemoAppearingChart title="NASDAQ 100" imageUrl="/assets/nasdaq.png" />
-      <MemoAppearingChart title="S&P 500 Index" imageUrl="/assets/sandp.png" />
+const ChartsGrid: React.FC<ChartsGridProps> = memo(
+  ({ showCharts, onChartClick }) => (
+    <div className="p-8 w-full animate-fade-in">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 ${
+          showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        <div onClick={onChartClick} className="cursor-pointer">
+          <MemoAppearingChart title="BTCUSD" imageUrl="/assets/bitcoin.png" />
+        </div>
+        <div onClick={onChartClick} className="cursor-pointer">
+          <MemoAppearingChart
+            title="NASDAQ 100"
+            imageUrl="/assets/nasdaq.png"
+          />
+        </div>
+        <div onClick={onChartClick} className="cursor-pointer">
+          <MemoAppearingChart
+            title="S&P 500 Index"
+            imageUrl="/assets/sandp.png"
+          />
+        </div>
+      </div>
     </div>
-  </div>
-));
+  )
+);
 
 const PredictionPage: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +45,23 @@ const PredictionPage: React.FC = () => {
   /* ─────────── UI state ─────────── */
   const [showCharts, setShowCharts] = useState(false);
   const [showGeneratingText, setShowGeneratingText] = useState(true);
+
+  /* ─── scroll to top on mount ─── */
+  useEffect(() => {
+    // Immediate scroll
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Also scroll after a short delay to handle any layout shifts
+    const scrollTimer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 100);
+
+    return () => clearTimeout(scrollTimer);
+  }, []);
 
   /* ─── chart / text timers ─── */
   useEffect(() => {
@@ -41,11 +73,16 @@ const PredictionPage: React.FC = () => {
     };
   }, []);
 
+  /* ─── navigation handler ─── */
+  const handleNavigateHome = () => {
+    navigate("/");
+  };
+
   /* ─── navigate on Enter ─── */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        navigate("/");
+        handleNavigateHome();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -55,7 +92,7 @@ const PredictionPage: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-screen relative overflow-y-auto flex flex-col items-center justify-center">
+    <div className="w-full min-h-screen relative overflow-y-auto flex flex-col items-center justify-center">
       {/* CSS Styles */}
       <style>{`
         @keyframes fade-in {
@@ -109,7 +146,10 @@ const PredictionPage: React.FC = () => {
 
         {/* Memoized Charts Grid */}
         <div className="relative z-10 w-full flex justify-center">
-          <ChartsGrid showCharts={showCharts} />
+          <ChartsGrid
+            showCharts={showCharts}
+            onChartClick={handleNavigateHome}
+          />
         </div>
       </div>
     </div>
