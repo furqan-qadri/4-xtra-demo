@@ -95,7 +95,7 @@ const PredictionPage: React.FC = () => {
               Market Scenarios
             </h1>
             <div
-              className={`text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
+              className={` hidden lg:flex text-2xl font-semibold text-gray-700 transition-opacity duration-500 ${
                 showGeneratingText ? "animate-blink opacity-100" : "opacity-0"
               }`}
             >
