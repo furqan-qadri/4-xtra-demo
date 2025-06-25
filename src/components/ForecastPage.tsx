@@ -117,7 +117,7 @@ const ForecastPage: React.FC = () => {
         }
       `}</style>
 
-      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl transition-all duration-300 active:scale-95">
+      <div className="bg-white/100 backdrop-blur-sm border border-gray-200 rounded-lg p-16 max-w-3xl w-full mx-4 shadow-2xl transition-all duration-300 active:scale-95 relative z-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
             <Cpu

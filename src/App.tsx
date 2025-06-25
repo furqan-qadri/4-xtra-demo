@@ -62,7 +62,7 @@ const AppContent: React.FC = () => {
               ></div>
 
               {/* Gradient overlay for better contrast */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30"></div>
+              {/* <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30"></div> */}
 
               {/* Radial gradient spotlight effect */}
               <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20"></div>

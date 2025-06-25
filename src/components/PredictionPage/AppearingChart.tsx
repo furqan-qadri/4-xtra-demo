@@ -65,7 +65,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
   }, []);
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95">
+    <div className="bg-white rounded-lg border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95">
       {/* Header section - matching ForecastPage chart header */}
       <div className="flex justify-between items-start mb-4">
         <div>
