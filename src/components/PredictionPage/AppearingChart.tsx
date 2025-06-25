@@ -17,7 +17,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
   autoStart = true,
   altText,
 }) => {
-  const [revealPercentage, setRevealPercentage] = useState(0);
+  const [revealPercentage, setRevealPercentage] = useState(50);
   const [isAnimating, setIsAnimating] = useState(false);
   const animationRef = useRef<number | undefined>(undefined);
   const startTimeRef = useRef<number | undefined>(undefined);
@@ -26,7 +26,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
     if (isAnimating) return;
 
     setIsAnimating(true);
-    setRevealPercentage(0);
+    setRevealPercentage(50);
     startTimeRef.current = Date.now();
 
     const animate = () => {
@@ -36,7 +36,7 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
       // Use easeOutQuart for smooth deceleration
       const easedProgress = 1 - Math.pow(1 - progress, 4);
 
-      setRevealPercentage(easedProgress * 100);
+      setRevealPercentage(50 + easedProgress * 50);
 
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
@@ -50,8 +50,8 @@ const AppearingChart: React.FC<AppearingChartProps> = ({
 
   useEffect(() => {
     if (autoStart) {
-      // Small delay to ensure image is loaded
-      const timer = setTimeout(startAnimation, 500);
+      // Wait one second before animation starts
+      const timer = setTimeout(startAnimation, 2000);
       return () => clearTimeout(timer);
     }
   }, [autoStart, duration]);
