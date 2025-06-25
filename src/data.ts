@@ -186,6 +186,7 @@ export const MAIN_IMPACTED_SECTORS: MarketSector[] = [
     color: "#702cde",
     change: "+52%",
     unit: "",
+    yAxisLabel:"Index",
   },
   {
     name: "WTI Crude Oil",
@@ -193,6 +194,7 @@ export const MAIN_IMPACTED_SECTORS: MarketSector[] = [
     color: "#702cde",
     change: "-7.3%",
     unit: "$",
+    yAxisLabel:"USD / bbl",
   },
   {
     name: "5-year breakeven inflation rate",
@@ -200,6 +202,7 @@ export const MAIN_IMPACTED_SECTORS: MarketSector[] = [
     color: "#702cde",
     change: "-6%",
     unit: "",
+    yAxisLabel:"%",
   },
 ];
 

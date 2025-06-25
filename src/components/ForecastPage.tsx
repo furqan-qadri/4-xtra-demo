@@ -150,7 +150,7 @@ const ForecastPage: React.FC = () => {
   );
 
   const MainChart = memo(
-    ({ name, data, color, change, unit = "$" }: MarketSector) => {
+    ({ name, data, color, change, unit = "$", yAxisLabel }: MarketSector) => {
       return (
         <div
           className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95"
@@ -196,6 +196,7 @@ const ForecastPage: React.FC = () => {
                   stroke={CHART_CONFIG.textColor}
                   fontSize={12}
                   tickFormatter={(v) => formatPrice(v, unit)}
+                  label={yAxisLabel ? { value: yAxisLabel, angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: 12, fill: CHART_CONFIG.textColor } } : undefined}
                 />
                 <Line
                   type="monotone"
