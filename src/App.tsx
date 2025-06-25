@@ -52,7 +52,7 @@ const AppContent: React.FC = () => {
             <div className="min-h-screen bg-white relative">
               {/* Background with opacity */}
               <div
-                className="absolute inset-0 opacity-50"
+                className="absolute inset-0 opacity-70"
                 style={{
                   backgroundImage: 'url("/assets/input_background.png")',
                   backgroundSize: "cover",
@@ -60,6 +60,12 @@ const AppContent: React.FC = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               ></div>
+
+              {/* Gradient overlay for better contrast */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/30"></div>
+
+              {/* Radial gradient spotlight effect */}
+              <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20"></div>
 
               {/* Your content with relative positioning */}
               <div className="max-w-full mx-auto relative z-10">

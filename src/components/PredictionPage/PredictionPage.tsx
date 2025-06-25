@@ -19,18 +19,18 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
         }`}
       >
         <div onClick={onChartClick} className="cursor-pointer">
-          <MemoAppearingChart title="BTCUSD" imageUrl="/assets/bitcoin.png" />
+          <MemoAppearingChart title="BTC-USD" imageUrl="/assets/bitcoin.png" />
         </div>
         <div onClick={onChartClick} className="cursor-pointer">
           <MemoAppearingChart
-            title="NASDAQ 100"
-            imageUrl="/assets/nasdaq.png"
+            title="S&P 500"
+            imageUrl="/assets/sandp_new.png"
           />
         </div>
         <div onClick={onChartClick} className="cursor-pointer">
           <MemoAppearingChart
-            title="S&P 500 Index"
-            imageUrl="/assets/sandp.png"
+            title="Silver"
+            imageUrl="/assets/silver_new.png"
           />
         </div>
       </div>

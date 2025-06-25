@@ -197,7 +197,7 @@ export const MAIN_IMPACTED_SECTORS: MarketSector[] = [
     yAxisLabel:"USD / bbl",
   },
   {
-    name: "5-year breakeven inflation rate",
+    name: "Inflation",
     data: INFLATION_DATA,
     color: "#702cde",
     change: "-6%",

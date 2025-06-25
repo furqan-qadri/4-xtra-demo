@@ -121,11 +121,11 @@ const ForecastPage: React.FC = () => {
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
             <Cpu
-              className="w-16 h-16 text-blue-600 animate-spin"
+              className="w-16 h-16 text-purple-600 animate-spin"
               style={{ animationDuration: "3s" }}
             />
-            <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full animate-pulse" />
+            {/* <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-purple-600 rounded-full animate-spin" />
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full animate-pulse" /> */}
           </div>
         </div>
 
@@ -196,7 +196,20 @@ const ForecastPage: React.FC = () => {
                   stroke={CHART_CONFIG.textColor}
                   fontSize={12}
                   tickFormatter={(v) => formatPrice(v, unit)}
-                  label={yAxisLabel ? { value: yAxisLabel, angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: 12, fill: CHART_CONFIG.textColor } } : undefined}
+                  label={
+                    yAxisLabel
+                      ? {
+                          value: yAxisLabel,
+                          angle: -90,
+                          position: "insideLeft",
+                          style: {
+                            textAnchor: "middle",
+                            fontSize: 12,
+                            fill: CHART_CONFIG.textColor,
+                          },
+                        }
+                      : undefined
+                  }
                 />
                 <Line
                   type="monotone"

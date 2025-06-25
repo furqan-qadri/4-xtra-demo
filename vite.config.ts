@@ -10,6 +10,6 @@ export default defineConfig({
       methods: ["GET", "POST"],
       allowedHeaders: ["Content-Type"],
     },
-    allowedHosts: ["0902-82-11-245-76.ngrok-free.app"], //added this
+    allowedHosts: ["d445-82-11-245-76.ngrok-free.app"], //added this
   },
 });
