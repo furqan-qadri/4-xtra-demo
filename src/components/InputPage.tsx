@@ -66,6 +66,40 @@ const InputPage: React.FC = () => {
     }
   };
 
+  // Global keydown handler for Enter key
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (isTyping) {
+          // Skip typing animation and go to forecast
+          console.log("Skipping typing, going to next screen");
+          const completeText = "Trump tariffs intensify in the next week";
+          setInputValue(completeText);
+          setShockEvent(completeText);
+          setIsTyping(false);
+          navigate("/forecast");
+        } else if (inputValue.trim()) {
+          // Submit existing input
+          console.log("Going to next screen with:", inputValue);
+          handleSubmit();
+        } else {
+          // Start typing effect if no input
+          console.log("Starting typing effect from global Enter key");
+          startTypingEffect();
+        }
+      }
+    };
+
+    // Add event listener to the document
+    document.addEventListener("keydown", handleGlobalKeyDown);
+
+    // Cleanup function to remove event listener
+    return () => {
+      document.removeEventListener("keydown", handleGlobalKeyDown);
+    };
+  }, [inputValue, isTyping, navigate, setShockEvent]); // Dependencies for the effect
+
   // Flashing scenarios with different positions and timings
   const flashingScenarios = [
     {
