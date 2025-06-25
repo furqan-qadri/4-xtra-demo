@@ -194,7 +194,7 @@ const InputPage: React.FC = () => {
                     onChange={(e) => !isTyping && setInputValue(e.target.value)}
                     onKeyDown={handleInputKeyDown}
                     placeholder="e.g., Trump tariffs intensify in the next week"
-                    className={`w-full px-6 py-5 pr-16 text-lg bg-white/90 border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/50 transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-white ${
+                    className={`w-full px-6 bg-white py-5 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/50 transition-all duration-300 shadow-lg hover:shadow-xl ${
                       isTyping ? "cursor-default" : ""
                     } font-medium placeholder-gray-500`}
                     readOnly={isTyping}
