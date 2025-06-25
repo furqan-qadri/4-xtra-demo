@@ -179,7 +179,7 @@ const InputPage: React.FC = () => {
             : "opacity-0 scale-95"
         } pointer-events-none`}
       >
-        <span className="text-3xl text-gray-700 font-bold drop-shadow-sm">
+        <span className="text-3xl text-gray-800 font-bold drop-shadow-sm">
           {text}
         </span>
       </div>
@@ -203,7 +203,7 @@ const InputPage: React.FC = () => {
           {/* Hero Section */}
           <div className="space-y-6">
             <div className="relative">
-              <h2 className="text-5xl font-bold bg-clip-text drop-shadow-sm">
+              <h2 className="text-5xl font-bold  bg-clip-text drop-shadow-sm">
                 What If ...
               </h2>
               {/* Subtle glow effect behind text */}

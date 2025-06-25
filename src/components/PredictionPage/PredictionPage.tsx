@@ -12,7 +12,7 @@ interface ChartsGridProps {
 
 const ChartsGrid: React.FC<ChartsGridProps> = memo(
   ({ showCharts, onChartClick }) => (
-    <div className="p-8 w-full animate-fade-in">
+    <div className="w-full animate-fade-in">
       <div
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 ${
           showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -126,9 +126,9 @@ const PredictionPage: React.FC = () => {
       {/* Centered Content Container */}
       <div className="w-full max-w-7xl mx-auto flex flex-col">
         {/* Header */}
-        <div className="p-8 pb-0 relative">
-          <div className="flex mb-2 justify-between">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+        <div className="mb-10 relative">
+          <div className="flex justify-between">
+            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Market Scenarios
             </h1>
             <div
