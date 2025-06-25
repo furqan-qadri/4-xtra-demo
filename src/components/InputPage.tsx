@@ -183,8 +183,8 @@ const InputPage: React.FC = () => {
           <div className="max-w-2xl mx-auto">
             {/* Enhanced container with backdrop and glow effect */}
             {/* <div className="relative rounded-2xl bg-white/80 backdrop-blur-xs shadow-2xl border border-white/20"> */}
-              {/* Glowing border effect */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-30"></div>
+              {/* Remove the specific gradient overlay to match other screens */}
+              {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-30"></div> */}
               
               <div className="relative">
                 <div className="relative">
