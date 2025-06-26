@@ -32,7 +32,7 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl }) => {
       
       {/* Chart container */}
       <div 
-        className="flex flex-col relative p-12 gap-4 w-full h-full rounded-lg overflow-hidden bg-contain bg-center bg-no-repeat"
+        className="flex flex-col relative gap-4 bg-grey-100 w-full h-full rounded-lg overflow-hidden bg-center border border-gray-200 bg-contain bg-no-repeat"
         style={{
           backgroundImage: `url(${imageUrl})`
         }}
@@ -53,7 +53,7 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl }) => {
               top: '15%',
               width: '90%',
               height: '65%',
-              transition: 'all 6s ease-in-out'
+              transition: 'all 10s ease-in-out'
             }}
             onTransitionEnd={handleAnimationEnd}
           />

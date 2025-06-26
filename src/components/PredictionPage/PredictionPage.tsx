@@ -12,7 +12,7 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
   ({ showCharts, onChartClick }) => (
     <div className="w-full animate-fade-in">
       <div
-        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 ${
+        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-2000 min-h-[400px] ${
           showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
@@ -24,7 +24,7 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
           <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" />
         </div>
          <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg min-h-80 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
-          <EffectChart title="Silver" imageUrl="/assets/silver_new.png" />
+          <EffectChart title="Gold" imageUrl="/assets/gold_new.png" />
         </div>
         {/* <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg">
           <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" />
@@ -62,7 +62,7 @@ const PredictionPage: React.FC = () => {
   /* ─── chart / text timers ─── */
   useEffect(() => {
     const chartTimer = setTimeout(() => setShowCharts(true), 500);
-    const textTimer = setTimeout(() => setShowGeneratingText(false), 4500);
+    const textTimer = setTimeout(() => setShowGeneratingText(false), 5500);
     return () => {
       clearTimeout(chartTimer);
       clearTimeout(textTimer);
