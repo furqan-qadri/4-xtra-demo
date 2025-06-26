@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import AppearingChart from "./AppearingChart";
+import EffectChart from "../EffectChart";
 import { ShockEventContext } from "../../App";
 
 const MemoAppearingChart = memo(AppearingChart);
@@ -150,6 +151,11 @@ const PredictionPage: React.FC = () => {
             showCharts={showCharts}
             onChartClick={handleNavigateHome}
           />
+        </div>
+
+        {/* Effect Chart Component */}
+        <div className="relative z-10 w-full flex justify-center mt-12">
+          <EffectChart />
         </div>
       </div>
     </div>
