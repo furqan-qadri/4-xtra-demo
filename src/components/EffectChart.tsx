@@ -29,18 +29,18 @@ const EffectChart: React.FC = () => {
       {/* <div className="relative w-64 h-64 bg-red-500 rounded-lg overflow-hidden"> */}
         {/* Yellow div positioned 15% from bottom and 20% from left */}
         <div 
-          className={`absolute h-3/5 bg-white ${
+          className={`absolute h-3/5 bg-yellow-400 ${
             isDisappearing 
               ? 'transform translate-x-full opacity-100' 
               : 'transform translate-x-0 opacity-100'
           }`}
           style={{
-            bottom: '25%',
-            left: '40%',
+            bottom: '50%',
+            left: '50%',
             right: '0%',
-            top: '25%',
+            top: '15%',
             width: '90%',
-            height: '50%',
+            height: '65%',
             transition: 'all 6s ease-in-out'
           }}
           onTransitionEnd={handleAnimationEnd}
