@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { TrendingUp, TrendingDown } from "lucide-react";
+import { isPositiveChange, getChangeColor } from "../utils";
 
 interface EffectChartProps {
   title: string;
   imageUrl: string;
+  change?: string; // e.g., "+12.5%" or "-8.3%"
 }
 
-const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl }) => {
+const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl, change }) => {
   const [isDisappearing, setIsDisappearing] = useState(false);
 
   useEffect(() => {
@@ -24,9 +27,26 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl }) => {
   return (
     <div className="flex flex-col relative gap-4 w-full h-full">
       {/* Title */}
-      <div className="flex justify-between items-start mb-4 w-full">
+      <div className="flex justify-between items-start w-full">
         <div>
           <h3 className="text-2xl font-semibold text-gray-900">{title}</h3>
+          {/* Blinking Arrow Component */}
+          {change && (
+            <div className="flex items-center mt-1">
+              {isPositiveChange(change) ? (
+                <TrendingUp className="w-4 h-4 text-green-500 mr-1 animate-bounce" />
+              ) : (
+                <TrendingDown className="w-4 h-4 text-red-500 mr-1 animate-bounce" />
+              )}
+              <span
+                className={`text-sm font-medium ${getChangeColor(
+                  change
+                )} animate-pulse`}
+              >
+                {change}
+              </span>
+            </div>
+          )}
         </div>
       </div>
       
