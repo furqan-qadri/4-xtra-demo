@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { isPositiveChange, getChangeColor } from "../utils";
 
 interface EffectChartProps {
   title: string;
   imageUrl: string;
-  change?: string; // e.g., "+12.5%" or "-8.3%"
+  change?: string; // e.g., "+12.5%" or "-8.3%" or "0%"
 }
 
 const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl, change }) => {
@@ -24,6 +24,12 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl, change }) =>
     // setIsDisappearing(false);
   };
 
+  // Helper function to check if change is zero
+  const isZeroChange = (change: string): boolean => {
+    const numericValue = parseFloat(change.replace(/[+\-%]/g, ''));
+    return numericValue === 0;
+  };
+
   return (
     <div className="flex flex-col relative gap-4 w-full h-full">
       {/* Title */}
@@ -33,15 +39,19 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl, change }) =>
           {/* Blinking Arrow Component */}
           {change && (
             <div className="flex items-center mt-1">
-              {isPositiveChange(change) ? (
+              {isZeroChange(change) ? (
+                <Minus className="w-4 h-4 text-gray-500 mr-1" />
+              ) : isPositiveChange(change) ? (
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1 animate-bounce" />
               ) : (
                 <TrendingDown className="w-4 h-4 text-red-500 mr-1 animate-bounce" />
               )}
               <span
-                className={`text-sm font-medium ${getChangeColor(
-                  change
-                )} animate-pulse`}
+                className={`text-sm font-medium ${
+                  isZeroChange(change) 
+                    ? 'text-gray-500' 
+                    : getChangeColor(change)
+                } ${isZeroChange(change) ? '' : 'animate-pulse'}`}
               >
                 {change}
               </span>

@@ -18,7 +18,7 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
       >
         
          <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg min-h-80 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
-          <EffectChart title="BTC" imageUrl="/assets/bitcoin_new.png" change="+0%" />
+          <EffectChart title="BTC" imageUrl="/assets/bitcoin_new.png" change="0%" />
         </div>
          <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg min-h-80 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
           <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" change="-9.2%" />
