@@ -19,34 +19,22 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
           showCharts ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        <div onClick={onChartClick} className="cursor-pointer">
-          <MemoAppearingChart title="BTC-USD" imageUrl="/assets/bitcoin.png" />
-        </div>
-        <div onClick={onChartClick} className="cursor-pointer">
+        
+         <div onClick={onChartClick} className="cursor-pointer">
           <MemoAppearingChart
             title="S&P 500"
             imageUrl="/assets/sandp_new.png"
           />
         </div>
-        {/* <div onClick={onChartClick} className="cursor-pointer">
-          <MemoAppearingChart
-            title="Silver"
-            imageUrl="/assets/silver_new.png"
-          />
+         <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg">
+          <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" />
+        </div>
+         <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg">
+          <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" />
+        </div>
+        {/* <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg">
+          <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" />
         </div> */}
-         <div onClick={onChartClick} className="cursor-pointer p-8 bg-white flex flex-col border border-gray-200 rounded-lg">
-          {/* <MemoAppearingChart
-            title="Silver"
-            imageUrl="/assets/silver_new.png"
-          /> */}
-          <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-2xl font-semibold text-gray-900">S&P 500</h3>
-        </div>
-      </div>
-          <EffectChart />
-
-        </div>
       </div>
     </div>
   )
