@@ -10,6 +10,7 @@ export interface MarketSector {
   color: string;
   change: string;
   unit?: string;
+  yAxisLabel?: string;
 }
 
 export interface ShockEventAnalysis {

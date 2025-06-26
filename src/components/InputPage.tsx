@@ -66,6 +66,40 @@ const InputPage: React.FC = () => {
     }
   };
 
+  // Global keydown handler for Enter key
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (isTyping) {
+          // Skip typing animation and go to forecast
+          console.log("Skipping typing, going to next screen");
+          const completeText = "Trump tariffs intensify in the next week";
+          setInputValue(completeText);
+          setShockEvent(completeText);
+          setIsTyping(false);
+          navigate("/forecast");
+        } else if (inputValue.trim()) {
+          // Submit existing input
+          console.log("Going to next screen with:", inputValue);
+          handleSubmit();
+        } else {
+          // Start typing effect if no input
+          console.log("Starting typing effect from global Enter key");
+          startTypingEffect();
+        }
+      }
+    };
+
+    // Add event listener to the document
+    document.addEventListener("keydown", handleGlobalKeyDown);
+
+    // Cleanup function to remove event listener
+    return () => {
+      document.removeEventListener("keydown", handleGlobalKeyDown);
+    };
+  }, [inputValue, isTyping, navigate, setShockEvent]); // Dependencies for the effect
+
   // Flashing scenarios with different positions and timings
   const flashingScenarios = [
     {
@@ -145,7 +179,7 @@ const InputPage: React.FC = () => {
             : "opacity-0 scale-95"
         } pointer-events-none`}
       >
-        <span className="text-3xl text-gray-700 font-bold drop-shadow-sm">
+        <span className="text-3xl text-gray-800 font-bold drop-shadow-sm">
           {text}
         </span>
       </div>
@@ -168,49 +202,63 @@ const InputPage: React.FC = () => {
         <div className="text-center space-y-8 w-full max-w-6xl">
           {/* Hero Section */}
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-gray-900">What If ...</h2>
+            <div className="relative">
+              <h2 className="text-5xl font-bold  bg-clip-text drop-shadow-sm">
+                What If ...
+              </h2>
+              {/* Subtle glow effect behind text */}
+              {/* <div className="absolute inset-0 text-6xl font-bold text-blue-500/10 blur-sm">
+                What If ...
+              </div> */}
+            </div>
           </div>
 
           {/* Input Section */}
           <div className="max-w-2xl mx-auto">
-            <div className="relative">
+            {/* Enhanced container with backdrop and glow effect */}
+            {/* <div className="relative rounded-2xl bg-white/80 backdrop-blur-xs shadow-2xl border border-white/20"> */}
+              {/* Remove the specific gradient overlay to match other screens */}
+              {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-30"></div> */}
+              
               <div className="relative">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => !isTyping && setInputValue(e.target.value)}
-                  onKeyDown={handleInputKeyDown}
-                  placeholder="e.g., Trump tariffs intensify in the next week"
-                  className={`w-full px-6 py-4 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-200 ${
-                    isTyping ? "cursor-default" : ""
-                  }`}
-                  readOnly={isTyping}
-                />
-                <button
-                  onClick={() => {
-                    if (isTyping) {
-                      // Skip typing animation and go to forecast
-                      const completeText =
-                        "Trump tariffs intensify in the next week";
-                      setInputValue(completeText);
-                      setShockEvent(completeText);
-                      setIsTyping(false);
-                      navigate("/forecast");
-                    } else if (inputValue.trim()) {
-                      // Submit existing input
-                      handleSubmit();
-                    } else {
-                      // Start typing effect if no input
-                      startTypingEffect();
-                    }
-                  }}
-                  disabled={false}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 hover:bg-gray-700 text-white rounded-full p-3 transition-colors duration-200"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                </button>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => !isTyping && setInputValue(e.target.value)}
+                    onKeyDown={handleInputKeyDown}
+                    placeholder="e.g., Trump tariffs intensify in the next week"
+                    className={`w-full px-6 bg-white py-5 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/50 transition-all duration-300 shadow-lg hover:shadow-xl ${
+                      isTyping ? "cursor-default" : ""
+                    } font-medium placeholder-gray-500`}
+                    readOnly={isTyping}
+                  />
+                  <button
+                    onClick={() => {
+                      if (isTyping) {
+                        // Skip typing animation and go to forecast
+                        const completeText =
+                          "Trump tariffs intensify in the next week";
+                        setInputValue(completeText);
+                        setShockEvent(completeText);
+                        setIsTyping(false);
+                        navigate("/forecast");
+                      } else if (inputValue.trim()) {
+                        // Submit existing input
+                        handleSubmit();
+                      } else {
+                        // Start typing effect if no input
+                        startTypingEffect();
+                      }
+                    }}
+                    disabled={false}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full p-3 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </main>

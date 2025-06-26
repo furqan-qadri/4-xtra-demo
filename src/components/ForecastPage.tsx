@@ -117,15 +117,15 @@ const ForecastPage: React.FC = () => {
         }
       `}</style>
 
-      <div className="bg-white border border-gray-200 rounded-2xl p-16 max-w-3xl w-full mx-4 shadow-xl transition-all duration-300 active:scale-95">
+      <div className="bg-white/100 backdrop-blur-sm border border-gray-200 rounded-lg p-16 max-w-3xl w-full mx-4 shadow-2xl transition-all duration-300 active:scale-95 relative z-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
             <Cpu
-              className="w-16 h-16 text-blue-600 animate-spin"
+              className="w-16 h-16 text-purple-600 animate-spin"
               style={{ animationDuration: "3s" }}
             />
-            <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full animate-pulse" />
+            {/* <div className="absolute inset-0 w-16 h-16 border-4 border-blue-200 border-t-purple-600 rounded-full animate-spin" />
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full animate-pulse" /> */}
           </div>
         </div>
 
@@ -150,7 +150,7 @@ const ForecastPage: React.FC = () => {
   );
 
   const MainChart = memo(
-    ({ name, data, color, change, unit = "$" }: MarketSector) => {
+    ({ name, data, color, change, unit = "$", yAxisLabel }: MarketSector) => {
       return (
         <div
           className="bg-white rounded-lg border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95"
@@ -196,6 +196,20 @@ const ForecastPage: React.FC = () => {
                   stroke={CHART_CONFIG.textColor}
                   fontSize={12}
                   tickFormatter={(v) => formatPrice(v, unit)}
+                  label={
+                    yAxisLabel
+                      ? {
+                          value: yAxisLabel,
+                          angle: -90,
+                          position: "insideLeft",
+                          style: {
+                            textAnchor: "middle",
+                            fontSize: 12,
+                            fill: CHART_CONFIG.textColor,
+                          },
+                        }
+                      : undefined
+                  }
                 />
                 <Line
                   type="monotone"
