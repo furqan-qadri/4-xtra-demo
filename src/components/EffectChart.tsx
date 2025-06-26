@@ -3,8 +3,14 @@ import React, { useState } from 'react';
 const EffectChart: React.FC = () => {
   const [isDisappearing, setIsDisappearing] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
     setIsDisappearing(true);
+  };
+
+  const handleResetClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setIsDisappearing(false);
   };
 
   const handleAnimationEnd = () => {
@@ -13,9 +19,9 @@ const EffectChart: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 p-8">
+    <div className="flex flex-col relative items-center p-12 gap-4 w-full h-full bg-red-500 rounded-lg overflow-hidden">
       {/* Red square container */}
-      <div className="relative w-64 h-64 bg-red-500 rounded-lg overflow-hidden">
+      {/* <div className="relative w-64 h-64 bg-red-500 rounded-lg overflow-hidden"> */}
         {/* Yellow div positioned 15% from bottom and 20% from left */}
         <div 
           className={`absolute h-3/5 bg-yellow-400 ${
@@ -32,8 +38,7 @@ const EffectChart: React.FC = () => {
           }}
           onTransitionEnd={handleAnimationEnd}
         />
-      </div>
-      
+      {/* </div> */}
       {/* Button to trigger the effect */}
       <button
         onClick={handleButtonClick}
@@ -50,13 +55,14 @@ const EffectChart: React.FC = () => {
       {/* Reset button */}
       {isDisappearing && (
         <button
-          onClick={() => setIsDisappearing(false)}
+          onClick={handleResetClick}
           className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-all duration-200 hover:scale-105"
         >
           Reset
         </button>
       )}
     </div>
+
   );
 };
 

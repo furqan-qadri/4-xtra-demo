@@ -28,11 +28,18 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
             imageUrl="/assets/sandp_new.png"
           />
         </div>
-        <div onClick={onChartClick} className="cursor-pointer">
+        {/* <div onClick={onChartClick} className="cursor-pointer">
           <MemoAppearingChart
             title="Silver"
             imageUrl="/assets/silver_new.png"
           />
+        </div> */}
+         <div onClick={onChartClick} className="cursor-pointer">
+          {/* <MemoAppearingChart
+            title="Silver"
+            imageUrl="/assets/silver_new.png"
+          /> */}
+          <EffectChart />
         </div>
       </div>
     </div>
@@ -151,11 +158,6 @@ const PredictionPage: React.FC = () => {
             showCharts={showCharts}
             onChartClick={handleNavigateHome}
           />
-        </div>
-
-        {/* Effect Chart Component */}
-        <div className="relative z-10 w-full flex justify-center mt-12">
-          <EffectChart />
         </div>
       </div>
     </div>
