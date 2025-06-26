@@ -22,7 +22,7 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl }) => {
   };
 
   return (
-    <div className="flex flex-col relative items-center gap-4 w-full h-full">
+    <div className="flex flex-col relative gap-4 w-full h-full">
       {/* Title */}
       <div className="flex justify-between items-start mb-4 w-full">
         <div>
@@ -32,7 +32,7 @@ const EffectChart: React.FC<EffectChartProps> = ({ title, imageUrl }) => {
       
       {/* Chart container */}
       <div 
-        className="flex flex-col relative items-center p-12 gap-4 w-full h-full rounded-lg overflow-hidden bg-contain bg-center bg-no-repeat"
+        className="flex flex-col relative p-12 gap-4 w-full h-full rounded-lg overflow-hidden bg-contain bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${imageUrl})`
         }}
