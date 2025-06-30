@@ -36,7 +36,6 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
 
 const PredictionPage: React.FC = () => {
   const navigate = useNavigate();
-  const { shockEvent } = useContext(ShockEventContext);
 
   /* ─────────── UI state ─────────── */
   const [showCharts, setShowCharts] = useState(false);
