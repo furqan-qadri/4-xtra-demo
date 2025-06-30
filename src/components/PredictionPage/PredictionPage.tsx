@@ -136,7 +136,7 @@ const PredictionPage: React.FC = () => {
             </div>
           </div>
           <p className="text-lg text-gray-600">
-            Event: {shockEvent || "Trump imposing 100% tariffs"}
+            Event: {"US trade tariffs intensify in the next week"}
           </p>
         </div>
 

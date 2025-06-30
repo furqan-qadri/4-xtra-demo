@@ -8,7 +8,7 @@ import type {
 } from "./types";
 
 export const SHOCK_EVENT_ANALYSIS: ShockEventAnalysis = {
-  title: "Impact Analysis: Trump tariffs introduced on several countries",
+  title: "Impact Analysis: US trade tariffs intensify in the next week",
   subtitle: "Some markets facing more than 100% tariffs",
   shockDate: "2025-06-16",
   description:
