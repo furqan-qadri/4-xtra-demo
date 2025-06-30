@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect, memo } from "react";
+import React, {useState, useEffect, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import EffectChart from "../EffectChart";
-import { ShockEventContext } from "../../App";
 
 interface ChartsGridProps {
   showCharts: boolean;
@@ -26,9 +25,6 @@ const ChartsGrid: React.FC<ChartsGridProps> = memo(
          <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg min-h-80 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
           <EffectChart title="Gold" imageUrl="/assets/gold_new.png" change="+10.4%"/>
         </div>
-        {/* <div onClick={onChartClick} className="cursor-pointer p-6 bg-white flex flex-col border border-gray-200 rounded-lg">
-          <EffectChart title="S&P 500" imageUrl="/assets/sandp_new.png" />
-        </div> */}
       </div>
     </div>
   )
@@ -135,7 +131,7 @@ const PredictionPage: React.FC = () => {
             </div>
           </div>
           <p className="text-lg text-gray-600">
-            Event: {"US trade tariffs intensify in the next week"}
+            Event: {"US trade tariffs intensify in the next month"}
           </p>
         </div>
 

@@ -25,7 +25,7 @@ const InputPage: React.FC = () => {
     setIsTyping(true);
     setInputValue("");
 
-    const targetText = "US trade tariffs intensify in the next week";
+    const targetText = "US trade tariffs intensify in the next month";
     let currentIndex = 0;
 
     const typeInterval = setInterval(() => {
@@ -49,7 +49,7 @@ const InputPage: React.FC = () => {
       if (isTyping) {
         // Skip typing animation and go to forecast
         console.log("Skipping typing, going to next screen");
-        const completeText = "US trade tariffs intensify in the next week";
+        const completeText = "US trade tariffs intensify in the next month";
         setInputValue(completeText);
         setShockEvent(completeText);
         setIsTyping(false);
@@ -74,7 +74,7 @@ const InputPage: React.FC = () => {
         if (isTyping) {
           // Skip typing animation and go to forecast
           console.log("Skipping typing, going to next screen");
-          const completeText = "US trade tariffs intensify in the next week";
+          const completeText = "US trade tariffs intensify in the next month";
           setInputValue(completeText);
           setShockEvent(completeText);
           setIsTyping(false);
@@ -227,7 +227,7 @@ const InputPage: React.FC = () => {
                     value={inputValue}
                     onChange={(e) => !isTyping && setInputValue(e.target.value)}
                     onKeyDown={handleInputKeyDown}
-                    placeholder="e.g., US trade tariffs intensify in the next week"
+                    placeholder="e.g., US trade tariffs intensify in the next month"
                     className={`w-full px-6 bg-white py-5 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/50 transition-all duration-300 shadow-lg hover:shadow-xl ${
                       isTyping ? "cursor-default" : ""
                     } font-medium placeholder-gray-500`}
@@ -238,7 +238,7 @@ const InputPage: React.FC = () => {
                       if (isTyping) {
                         // Skip typing animation and go to forecast
                         const completeText =
-                          "US trade tariffs intensify in the next week";
+                          "US trade tariffs intensify in the next month";
                         setInputValue(completeText);
                         setShockEvent(completeText);
                         setIsTyping(false);
