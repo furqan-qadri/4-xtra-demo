@@ -3,6 +3,61 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { ShockEventContext } from "../App";
 
+// Move FlashingScenario outside to prevent re-creation on every render
+const FlashingScenario = ({
+  text,
+  position,
+  delay,
+  stopAnimations,
+}: {
+  text: string;
+  position: string;
+  delay: number;
+  stopAnimations: boolean;
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (stopAnimations) {
+      setIsVisible(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+      setTimeout(() => setIsVisible(false), 2000);
+    }, delay);
+
+    const interval = setInterval(() => {
+      if (stopAnimations) {
+        setIsVisible(false);
+        return;
+      }
+      setIsVisible(true);
+      setTimeout(() => setIsVisible(false), 2000);
+    }, 8000 + delay);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [delay, stopAnimations]);
+
+  return (
+    <div
+      className={`absolute ${position} transition-all duration-1000 ease-in-out ${
+        isVisible && !stopAnimations
+          ? "opacity-100 scale-100"
+          : "opacity-0 scale-95"
+      } pointer-events-none`}
+    >
+      <span className="text-3xl text-gray-800 font-bold drop-shadow-sm">
+        {text}
+      </span>
+    </div>
+  );
+};
+
 const InputPage: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -134,58 +189,6 @@ const InputPage: React.FC = () => {
     },
   ];
 
-  const FlashingScenario = ({
-    text,
-    position,
-    delay,
-  }: {
-    text: string;
-    position: string;
-    delay: number;
-  }) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-      if (stopAnimations) {
-        setIsVisible(false);
-        return;
-      }
-
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-        setTimeout(() => setIsVisible(false), 2000);
-      }, delay);
-
-      const interval = setInterval(() => {
-        if (stopAnimations) {
-          setIsVisible(false);
-          return;
-        }
-        setIsVisible(true);
-        setTimeout(() => setIsVisible(false), 2000);
-      }, 8000 + delay);
-
-      return () => {
-        clearTimeout(timer);
-        clearInterval(interval);
-      };
-    }, [delay, stopAnimations]);
-
-    return (
-      <div
-        className={`absolute ${position} transition-all duration-1000 ease-in-out ${
-          isVisible && !stopAnimations
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-95"
-        } pointer-events-none`}
-      >
-        <span className="text-3xl text-gray-800 font-bold drop-shadow-sm">
-          {text}
-        </span>
-      </div>
-    );
-  };
-
   return (
     <div className="w-full h-screen relative overflow-hidden">
       {/* Flashing scenarios */}
@@ -195,6 +198,7 @@ const InputPage: React.FC = () => {
           text={scenario.text}
           position={scenario.position}
           delay={scenario.delay}
+          stopAnimations={stopAnimations}
         />
       ))}
 
@@ -217,47 +221,47 @@ const InputPage: React.FC = () => {
           <div className="max-w-2xl mx-auto">
             {/* Enhanced container with backdrop and glow effect */}
             {/* <div className="relative rounded-2xl bg-white/80 backdrop-blur-xs shadow-2xl border border-white/20"> */}
-              {/* Remove the specific gradient overlay to match other screens */}
-              {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-30"></div> */}
-              
+            {/* Remove the specific gradient overlay to match other screens */}
+            {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-30"></div> */}
+
+            <div className="relative">
               <div className="relative">
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => !isTyping && setInputValue(e.target.value)}
-                    onKeyDown={handleInputKeyDown}
-                    placeholder="e.g., US trade tariffs intensify in the next month"
-                    className={`w-full px-6 bg-white py-5 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/50 transition-all duration-300 shadow-lg hover:shadow-xl ${
-                      isTyping ? "cursor-default" : ""
-                    } font-medium placeholder-gray-500`}
-                    readOnly={isTyping}
-                  />
-                  <button
-                    onClick={() => {
-                      if (isTyping) {
-                        // Skip typing animation and go to forecast
-                        const completeText =
-                          "US trade tariffs intensify in the next month";
-                        setInputValue(completeText);
-                        setShockEvent(completeText);
-                        setIsTyping(false);
-                        navigate("/forecast");
-                      } else if (inputValue.trim()) {
-                        // Submit existing input
-                        handleSubmit();
-                      } else {
-                        // Start typing effect if no input
-                        startTypingEffect();
-                      }
-                    }}
-                    disabled={false}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full p-3 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                </div>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => !isTyping && setInputValue(e.target.value)}
+                  onKeyDown={handleInputKeyDown}
+                  placeholder="e.g., US trade tariffs intensify in the next month"
+                  className={`w-full px-6 bg-white py-5 pr-16 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/50 transition-all duration-300 shadow-lg hover:shadow-xl ${
+                    isTyping ? "cursor-default" : ""
+                  } font-medium placeholder-gray-500`}
+                  readOnly={isTyping}
+                />
+                <button
+                  onClick={() => {
+                    if (isTyping) {
+                      // Skip typing animation and go to forecast
+                      const completeText =
+                        "US trade tariffs intensify in the next month";
+                      setInputValue(completeText);
+                      setShockEvent(completeText);
+                      setIsTyping(false);
+                      navigate("/forecast");
+                    } else if (inputValue.trim()) {
+                      // Submit existing input
+                      handleSubmit();
+                    } else {
+                      // Start typing effect if no input
+                      startTypingEffect();
+                    }
+                  }}
+                  disabled={false}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full p-3 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
               </div>
+            </div>
             {/* </div> */}
           </div>
         </div>
